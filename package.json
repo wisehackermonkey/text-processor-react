@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "description": "Monaco Editor for React",
   "scripts": {
-    "start": "webpack serve --open --config webpack.config.js --hot --inline --progress --port 8886 "
+    "start": "webpack serve --open --config webpack.config.js --hot --inline --progress --port 3000 "
   },
   "authors": [
     "Leon Shi <superRaytin@gmail.com>",
