@@ -35,7 +35,7 @@ const options = {
     }
     return (
     <div>
-      <h2>Monaco Editor Sample (controlled mode)</h2>
+      <h2>Text Processor v1 (Alpha) by [Oran C 2021]</h2>
       <div>
         <button onClick={()=>{
           setTheme(!theme)

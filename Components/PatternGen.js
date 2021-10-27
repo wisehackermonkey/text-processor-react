@@ -3,7 +3,7 @@ import RandExp from "randexp"
 import h from "./helper"
 
 const patternExamples = [
-    { title: "None", example: "" },
+    { title: "Clear", example: "" },
     { title: "Numbers Int 6820278", example: "/([0-9]{1,7})/g" },
     { title: "Numbers Float 2244235192957.124291", example: "/[-+]?[0-9]{0,16}(\\.[0-9]{1,6})?/g" },
     { title: 'Phone Number "230-896-1111"', example: "/([0-9]){3}-([0-9]){3}-([0-9]){4}/g" },
@@ -24,6 +24,7 @@ const PatternGen = ({editor}) => {
         let regex_from_string = h.string_to_regexp(patterinput)
         let temp_pattern = new RandExp(regex_from_string).gen()
         setPatternOutput(temp_pattern)
+        return temp_pattern
     }
     
     return (
@@ -56,7 +57,10 @@ const PatternGen = ({editor}) => {
             <div>
                 <button onClick={geneartePattern}>Generate</button>
                 <hr />
-                <button onClick={()=>{}}>Paste To Section</button>
+                <button onClick={()=>{
+                    
+                    h.pasteRegexPattern(editor,geneartePattern())
+                }}>Paste To Section</button>
             </div>
         </div>
     )
