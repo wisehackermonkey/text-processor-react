@@ -4,7 +4,7 @@ const path = require("path");
 // const MonacoEditorSrc = path.join(__dirname, "..", "src");
 
 module.exports = {
-  entry: "./index.js",
+  entry: "./src/index.js",
   mode: "development",
   devtool: "source-map",
   output: {
@@ -50,5 +50,5 @@ module.exports = {
       languages: ["json", "javascript", "typescript"],
     }),
   ],
-  devServer: { contentBase: "./" },
+  devServer: { contentBase: "./src" },
 };
