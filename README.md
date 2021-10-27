@@ -2,11 +2,12 @@
 
 <h1 align="center">text-processor-react</h1>
 
-<div align="center">
 [![NodeJS with Webpack, and push to github pages](https://github.com/wisehackermonkey/text-processor-react/actions/workflows/webpack.yml/badge.svg)](https://github.com/wisehackermonkey/text-processor-react/actions/workflows/webpack.yml)
-</div >
 
  
+ 
+### LIVE EXAMPLE
+### [Click here [text-processor-react]](https://wisehackermonkey.github.io/text-processor-react/)
 ## Examples
 
 To build the examples locally, run:
