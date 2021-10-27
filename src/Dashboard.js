@@ -32,7 +32,7 @@ function Copyright(props) {
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        Oran C
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -151,9 +151,14 @@ function DashboardContent() {
                   <React.Fragment>
                     <Title>Editor</Title>
                     <MonacoEditor
-
+                      height="400"
+                      width="1000"
                       language="javascript"
-
+                      value={example_text}
+                      options={options}
+                      onChange={onChange}
+                      editorDidMount={monacoEditorLoaded}
+                      theme={theme ?"vs-light":"vs-dark"}
                     />
                   </React.Fragment>
                 </Paper>
