@@ -35,5 +35,14 @@ module.exports = {
       var id = { major: 1, minor: 1 };             
       var ops = selections.map(x=>{ return {identifier: id, range: x, text: fn(), forceMoveMarkers: true} })
       editor.executeEdits("my-source", ops);
+    },
+    // wrapper around function that allows for control z for the editor
+    updateEditor:(editor,text)=>{
+      const fullRange = editor.getModel().getFullModelRange();
+
+      editor.executeEdits(null, [{
+        text: text,
+        range: fullRange
+      }]);
     }
   }
