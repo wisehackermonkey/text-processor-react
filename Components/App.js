@@ -1,7 +1,7 @@
 import React,{useEffect,useState,useReducer} from "react";
 import MonacoEditor from "react-monaco-editor";
-import PatternGen from './PatternGen';
-import RegexReplace from "./RegexReplace"
+import PatternGen from './Component/PatternGen';
+import RegexReplace from "./Component/RegexReplace"
 const example_text = `
 
 Minimal set for phonemic tone in Mandarin Chinese

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import RandExp from "randexp"
-import h from "./helper"
+import h from "./Component/helper"
 
 const patternExamples = [
     { title: "Clear", example: "" },
