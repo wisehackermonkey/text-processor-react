@@ -7,8 +7,12 @@ module.exports = {
   entry: "./src/index.js",
   mode: "development",
   devtool: "source-map",
+  // output: {
+  //   path: path.join(__dirname, "./lib/t"),
+  //   filename: "index.js",
+  // },
   output: {
-    path: path.join(__dirname, "./lib/t"),
+    path: path.join(__dirname, "./dist"),
     filename: "index.js",
   },
   module: {
