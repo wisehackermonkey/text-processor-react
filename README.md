@@ -13,8 +13,10 @@ yarn
 yarn start
 ```
 
-Then open `http://localhost:8886` in a browser.
+### Then open `http://localhost:8886` in a browser.
  
+# TODO add
+- tailwind css or another css library https://raybo.org/slides_reactinterface/notes/slides/01_05/index.html
 # links
 [GitHub - react-monaco-editor/react-monaco-editor: Monaco Editor for React.](https://github.com/react-monaco-editor/react-monaco-editor)
 # License
