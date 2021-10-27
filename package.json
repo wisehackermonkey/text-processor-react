@@ -5,7 +5,7 @@
   "description": "Monaco Editor for React",
   "scripts": {
     "start": "webpack serve --open --config webpack.config.js --hot --inline --progress --port 3000 ",
-    "build": "webpack build --config webpack.config.js"
+    "build": "webpack build --mode production --config webpack.config.js"
   },
   "authors": [
     "Leon Shi <superRaytin@gmail.com>",
