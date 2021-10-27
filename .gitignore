@@ -2,7 +2,7 @@
 .idea/
 .ipr
 .iws
-*.js
+
 *~
 ~*
 *.diff
@@ -22,6 +22,4 @@ dist
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-/lib
 .vscode
-dist/*
