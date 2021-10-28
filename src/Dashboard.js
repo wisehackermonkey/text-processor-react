@@ -26,15 +26,17 @@ import PatternGen from './PatternGen';
 import RegexReplace from "./RegexReplace"
 import Main from "./Main"
 import Title from './Title';
+import GitHubForkRibbon from 'react-github-fork-ribbon';
 
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Oran C
+      {`Copyright © Oran C ${new Date().getFullYear()} | `} 
+            
+      <Link color="inherit" href="https://wisehackermonkey.github.io/text-processor-react/">
+        Github Repository
       </Link>{' '}
-      {new Date().getFullYear()}
+      
       {'.'}
     </Typography>
   );
@@ -99,7 +101,14 @@ function DashboardContent() {
     setEditor(__editor__)
   }
   return (
+    
     <ThemeProvider theme={mdTheme}>
+      <GitHubForkRibbon href="https://github.com/wisehackermonkey/text-processor-react"
+                    target="_blank"
+                    color="black"
+                    position="left-bottom">
+    Star me on GitHub
+    </GitHubForkRibbon>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <AppBar position="absolute" open={false}>
@@ -116,7 +125,7 @@ function DashboardContent() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Text Processor v1 (Alpha) by [Oran C 2021]
+              Text Processor v3 By Oran Collins
             </Typography>
             <IconButton color="inherit">
               <Badge badgeContent={0} color="secondary">
