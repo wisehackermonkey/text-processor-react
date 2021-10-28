@@ -32,12 +32,12 @@ import GitHubForkRibbon from 'react-github-fork-ribbon';
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {`Copyright © Oran C ${new Date().getFullYear()} | `} 
-            
+      {`Copyright © Oran C ${new Date().getFullYear()} | `}
+
       <Link color="inherit" href="https://wisehackermonkey.github.io/text-processor-react/">
         Github Repository
       </Link>{' '}
-      
+
       {'.'}
     </Typography>
   );
@@ -67,9 +67,7 @@ const AppBar = styled(MuiAppBar, {
 const mdTheme = createTheme();
 
 
-const EXAMPLE_TEXT = `
-
-Minimal set for phonemic tone in Mandarin Chinese
+const EXAMPLE_TEXT = `Example Text to convert into csv!
 Tone number	1	2	3	4	5
 Hanzi	媽	麻	馬	罵	嗎
 Pinyin	mā	má	mǎ	mà	ma
@@ -85,19 +83,14 @@ const options = {
 };
 
 let onChange = (editor_text, e) => {
-  // if (typeof(Storage) !== "undefined") {
-    console.log('onChange', editor_text, e);
+  console.log('onChange', editor_text, e);
 
-    // if (localStorage.editorSavedText === "undefined") {
-    //   localStorage.editorSavedText = EXAMPLE_TEXT;
-    //   return
-    // } 
-    localStorage.editorSavedText = editor_text;
+  localStorage.editorSavedText = editor_text;
 }
- 
+
 function DashboardContent() {
   const [open, setOpen] = useState(true);
-  const [editorText, setEditorText] =  useState("");
+  const [editorText, setEditorText] = useState("");
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -108,17 +101,22 @@ function DashboardContent() {
     console.log("__Editor__ loaded")
     __editor__.focus();
     setEditor(__editor__)
-    // h.updateEditor()
+
+    if (localStorage.editorSavedText === undefined) {
+      localStorage.editorSavedText = EXAMPLE_TEXT;
+      console.log("loaded example text")
+      return
+    }
   }
   return (
-    
+
     <ThemeProvider theme={mdTheme}>
       <GitHubForkRibbon href="https://github.com/wisehackermonkey/text-processor-react"
-                    target="_blank"
-                    color="black"
-                    position="left-bottom">
-    Star me on GitHub
-    </GitHubForkRibbon>
+        target="_blank"
+        color="black"
+        position="left-bottom">
+        Star me on GitHub
+      </GitHubForkRibbon>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <AppBar position="absolute" open={false}>

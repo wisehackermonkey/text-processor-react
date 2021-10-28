@@ -2,13 +2,20 @@
 
 <h1 align="center">text-processor-react</h1>
 
-[![NodeJS with Webpack, and push to github pages](https://github.com/wisehackermonkey/text-processor-react/actions/workflows/webpack.yml/badge.svg)](https://github.com/wisehackermonkey/text-processor-react/actions/workflows/webpack.yml)
+[![Publish to github pages](https://github.com/wisehackermonkey/text-processor-react/actions/workflows/webpack.yml/badge.svg)](https://github.com/wisehackermonkey/text-processor-react/actions/workflows/webpack.yml)
 
- 
- 
-### LIVE EXAMPLE
-### [Click here [text-processor-react]](https://wisehackermonkey.github.io/text-processor-react/)
-## Examples
+<hr>
+ <div align="center">
+ <image height="500" src="assets/2021-10-28-11-45-30.png">
+ </div>
+
+ <hr>
+
+# Live Website
+### [Click here ](https://wisehackermonkey.github.io/text-processor-react/)
+ <hr>
+
+## How to Install & Develope Locally
 
 To build the examples locally, run:
 
@@ -20,9 +27,9 @@ yarn start
 ### Then open `http://localhost:8886` in a browser.
  
 # TODO add
-- tailwind css or another css library https://raybo.org/slides_reactinterface/notes/slides/01_05/index.html
+- ~~better css~~ DONE
+- ~~add localstorage~~ DONE
 - add pastebin save with api key
-- add localstorage
 # links
 [GitHub - react-monaco-editor/react-monaco-editor: Monaco Editor for React.](https://github.com/react-monaco-editor/react-monaco-editor)
 [Monaco Editor Playground](https://microsoft.github.io/monaco-editor/playground.html#creating-the-editor-editor-basic-options)
