@@ -168,8 +168,8 @@ function DashboardContent() {
                   <React.Fragment>
                     <Title>Editor</Title>
                     <MonacoEditor
-                      height="400"
-                      width="1000"
+                      // height="400"
+                      // width="1000"
                       language="javascript"
                       defaultValue={localStorage.editorSavedText}
                       options={options}
