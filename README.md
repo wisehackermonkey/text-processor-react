@@ -21,6 +21,8 @@ yarn start
  
 # TODO add
 - tailwind css or another css library https://raybo.org/slides_reactinterface/notes/slides/01_05/index.html
+- add pastebin save with api key
+- add localstorage
 # links
 [GitHub - react-monaco-editor/react-monaco-editor: Monaco Editor for React.](https://github.com/react-monaco-editor/react-monaco-editor)
 [Monaco Editor Playground](https://microsoft.github.io/monaco-editor/playground.html#creating-the-editor-editor-basic-options)

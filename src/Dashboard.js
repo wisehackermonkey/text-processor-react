@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
+import h from "./helper"
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
@@ -66,7 +67,7 @@ const AppBar = styled(MuiAppBar, {
 const mdTheme = createTheme();
 
 
-const example_text = `
+const EXAMPLE_TEXT = `
 
 Minimal set for phonemic tone in Mandarin Chinese
 Tone number	1	2	3	4	5
@@ -83,12 +84,20 @@ const options = {
   automaticLayout: false,
 };
 
-let onChange = (newValue, e) => {
-  console.log('onChange', newValue, e);
-}
+let onChange = (editor_text, e) => {
+  // if (typeof(Storage) !== "undefined") {
+    console.log('onChange', editor_text, e);
 
+    // if (localStorage.editorSavedText === "undefined") {
+    //   localStorage.editorSavedText = EXAMPLE_TEXT;
+    //   return
+    // } 
+    localStorage.editorSavedText = editor_text;
+}
+ 
 function DashboardContent() {
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
+  const [editorText, setEditorText] =  useState("");
   const toggleDrawer = () => {
     setOpen(!open);
   };
@@ -99,6 +108,7 @@ function DashboardContent() {
     console.log("__Editor__ loaded")
     __editor__.focus();
     setEditor(__editor__)
+    // h.updateEditor()
   }
   return (
     
@@ -163,7 +173,7 @@ function DashboardContent() {
                       height="400"
                       width="1000"
                       language="javascript"
-                      value={example_text}
+                      defaultValue={localStorage.editorSavedText}
                       options={options}
                       onChange={onChange}
                       editorDidMount={monacoEditorLoaded}
