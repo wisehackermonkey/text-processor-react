@@ -37,12 +37,22 @@ module.exports = {
       editor.executeEdits("my-source", ops);
     },
     // wrapper around function that allows for control z for the editor
-    updateEditor:(editor,text)=>{
+    updateEditor:(editor,value)=>{
       const fullRange = editor.getModel().getFullModelRange();
-
-      editor.executeEdits(null, [{
-        text: text,
-        range: fullRange
-      }]);
+       if (value !== editor.getValue()) {
+        editor.getModel().pushEditOperations(
+        [],
+        [
+         {
+          range: fullRange,
+          text: value,
+         }
+        ]
+       );
+    }
+      // editor.executeEdits(null, [{
+      //   text: text,
+      //   range: fullRange
+      // }]);
     }
   }

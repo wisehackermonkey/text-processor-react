@@ -1,29 +1,32 @@
 import React, { useState } from "react";
-import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
-import { styled } from '@mui/material/styles';
 import RandExp from "randexp"
 import h from "./helper"
 import Button from '@mui/material/Button';
-import Card from '@mui/material/Card';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 
-const patternExamples = [
-    { title: "Clear", example: "" },
-    { title: "Numbers Int 6820278", example: "/([0-9]{1,7})/g" },
-    { title: "Numbers Float 2244235192957.124291", example: "/[-+]?[0-9]{0,16}(\\.[0-9]{1,6})?/g" },
-    { title: 'Phone Number "230-896-1111"', example: "/([0-9]){3}-([0-9]){3}-([0-9]){4}/g" },
-    { title: 'Letters "kMRJkgosocialdIEMY"', example: "/([a-zA-Z]){4}([a-z]){10}([A-Z]){4}/g" },
-    { title: "Numbers&Letters AJppm8031N", example: "/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}$" },
-    { title: 'Date "2046/11/07"', example: "/(19|20)\\d\\d([/])(0[1-9]|1[012])\\2(0[1-9]|[12][0-9]|3[01])/g" },
-    { title: 'Email "ve5@swirxng1.xx"', example: "/[a-z0-9._+-]{1,20}@[a-z0-9]{3,15}\\.[a-z]{2,4}/g" },
-    { title: 'IP Address "192.168.1.254"', example: "/[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}/g" },
 
-    // {title:"", example:""},
-]
+// https://mui.com/components/material-icons/
+import MoneyIcon from '@mui/icons-material/Money';
+import PhoneIcon from '@mui/icons-material/Phone';
+import FontDownloadIcon from '@mui/icons-material/FontDownload';
+import DateRangeIcon from '@mui/icons-material/DateRange';
+import AlternateEmailOutlinedIcon from '@mui/icons-material/AlternateEmailOutlined';
+import DnsOutlinedIcon from '@mui/icons-material/DnsOutlined';
+
+const patternExamples = {
+    clear: "",
+    int: "/([0-9]{1,7})/g",
+    float: "/[-+]?[0-9]{0,16}(\\.[0-9]{1,6})?/g",
+    phonenumber: "/([0-9]){3}-([0-9]){3}-([0-9]){4}/g",
+    letters: "/([a-zA-Z]){4}([a-z]){10}([A-Z]){4}/g",
+    letters_numbers: "/^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}$/g",
+    date: "/(19|20)\\d\\d([/])(0[1-9]|1[012])\\2(0[1-9]|[12][0-9]|3[01])/g",
+    email: "/[a-z0-9._+-]{1,20}@[a-z0-9]{3,15}\\.[a-z]{2,4}/g",
+    ipaddress: "/[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}/g",
+}
 
 
 const PatternGen = ({ editor }) => {
@@ -38,7 +41,15 @@ const PatternGen = ({ editor }) => {
     const [alignment, setAlignment] = React.useState('web');
 
     const handleChange = (event, newAlignment) => {
-      setAlignment(newAlignment);
+        if (newAlignment) {
+            let pattern_temp = patternExamples[newAlignment]
+            setPatternInput("")
+            setPatternOutput("")
+            setPatternInput(pattern_temp)
+
+            console.log(newAlignment)
+            setAlignment(newAlignment);
+        }
     };
     return (
         <div>
@@ -46,35 +57,50 @@ const PatternGen = ({ editor }) => {
             <Stack spacing={2} direction="column">
 
                 <Stack spacing={2} direction="row">
-                    <Button variant="contained">Generate</Button>
-                    <Button variant="contained">Paste To Editor Selection</Button>
-                 </Stack>
-                 <ToggleButtonGroup
-      color="primary"
-      value={alignment}
-      exclusive
-      onChange={handleChange}
-    >
-      <ToggleButton value="web">Web</ToggleButton>
-      <ToggleButton value="android">Android</ToggleButton>
-      <ToggleButton value="ios">iOS</ToggleButton>
-    </ToggleButtonGroup>
+                    <Button variant="contained" onClick={geneartePattern}>Generate</Button>
+                    <Button variant="contained" onClick={(e) => {
+                        h.pasteRegexPattern(editor, geneartePattern())
+                    }}>Paste To Editor Selection</Button>
+                </Stack>
+                <ToggleButtonGroup
+                    color="primary"
+                    value={alignment}
+                    exclusive
+                    onChange={handleChange}
+                >
+                    <ToggleButton value="clear" aria-label="left aligned">Clear</ToggleButton>
+                    <ToggleButton value="int"> <MoneyIcon /></ToggleButton>
+                    <ToggleButton value="float" ><MoneyIcon />.00 </ToggleButton>
+                    <ToggleButton value="phonenumber"><PhoneIcon /> </ToggleButton>
+                    <ToggleButton value="letters"><FontDownloadIcon /></ToggleButton>
+                    <ToggleButton value="letters_numbers"><MoneyIcon />&<FontDownloadIcon /></ToggleButton>
+                    <ToggleButton value="date"><DateRangeIcon /></ToggleButton>
+                    <ToggleButton value="email"><AlternateEmailOutlinedIcon /></ToggleButton>
+                    <ToggleButton value="ipaddress"><DnsOutlinedIcon /></ToggleButton>
+
+                </ToggleButtonGroup>
                 <Stack direction="row" spacing={2}>
                     <TextField
                         id="outlined-multiline-static"
-                        label="Pattern"
+                        // label="Pattern"
+                        variant="standard"
+                        placeholder="EX: /^([a-zA-Z]){5}([0-9]){4}([a-zA-Z]){1}$/"
                         multiline
-                        rows={4}
-                        defaultValue="Default Value"
+                        value={patterinput}
+                        minRows={4}
+                        onInput={(e) => setPatternInput(e.target.value)}
                     />
                     <TextField
                         id="outlined-multiline-static"
-                        label="Pattern Output"
+                        // label="Pattern Output"
+                        placeholder="EX: FSXDx8017T"
+                        variant="standard"
                         multiline
-                        rows={4}
-                        defaultValue="Default Value"
+                        minRows={4}
+                        value={patterOutput}
+                        onInput={(e) => setPatternOutput(e.target.value)}
                     />
-                     
+
                 </Stack>
             </Stack>
 

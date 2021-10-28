@@ -90,10 +90,10 @@ function DashboardContent() {
   const toggleDrawer = () => {
     setOpen(!open);
   };
-  let [theme,setTheme] = useState(false)
-  let [editor,setEditor] = useState(null)
+  let [theme, setTheme] = useState(false)
+  let [editor, setEditor] = useState(null)
 
-  let monacoEditorLoaded = (__editor__, monaco)=>{
+  let monacoEditorLoaded = (__editor__, monaco) => {
     console.log("__Editor__ loaded")
     __editor__.focus();
     setEditor(__editor__)
@@ -158,7 +158,7 @@ function DashboardContent() {
                       options={options}
                       onChange={onChange}
                       editorDidMount={monacoEditorLoaded}
-                      theme={theme ?"vs-light":"vs-dark"}
+                      theme={theme ? "vs-light" : "vs-dark"}
                     />
                   </React.Fragment>
                 </Paper>
@@ -173,11 +173,13 @@ function DashboardContent() {
                     height: 800,
                   }}
                 >
-                   <div>
-                    <RegexReplace editor={editor}/>
-                    <hr />  
-                    <PatternGen  editor={editor}/>
-                    </div>
+                  <>
+                    <h1>Regex Replace</h1>
+                    <RegexReplace editor={editor} />
+                    <hr />
+                    <h1>Generate Text Using Regex Expressions</h1>
+                    <PatternGen editor={editor} />
+                  </>
                 </Paper>
               </Grid>
 
