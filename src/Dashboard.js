@@ -135,11 +135,7 @@ function DashboardContent() {
             >
               Text Processor v3 By Oran Collins
             </Typography>
-            <IconButton color="inherit">
-              <Badge badgeContent={0} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
+            
           </Toolbar>
         </AppBar>
 
