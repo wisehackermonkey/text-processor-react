@@ -10,6 +10,8 @@ import RegexReplace from "./RegexReplace"
 import PatternSelector from './PatternSelector';
 
 import MonacoEditor from "react-monaco-editor";
+import { monaco } from 'react-monaco-editor';
+
 import GitHubForkRibbon from 'react-github-fork-ribbon';
 
 import { mainListItems, secondaryListItems } from './listItems';
@@ -112,6 +114,34 @@ function DashboardContent() {
       return
     }
   }
+
+  
+// Register a new language
+monaco.languages.register({ id: 'mySpecialLanguage' });
+
+// Register a tokens provider for the language
+monaco.languages.setMonarchTokensProvider('mySpecialLanguage', {
+	tokenizer: {
+		root: [
+			[ /[\s\t\r]+/, "CONTROL"],
+			[/0|[1-9][0-9]*/, "NUMBERS"],
+			[/[a-zA-Z]+/, "LETTERS"],
+			[/[^\s\t\r\-0-9a-zA-Z]+/, "SYMBOLS"],
+		]
+	}
+});
+
+// Define a new theme that contains only rules that match this language
+monaco.editor.defineTheme('myCoolTheme', {
+	base: 'vs-dark',
+	inherit: true,
+	rules: [
+		{ token: 'CONTROL', foreground: '#F50B03', fontStyle: 'bold' },
+		{ token: 'NUMBERS', foreground: '#0BF503' },
+		{ token: 'LETTERS', foreground: '#4811F1',background:"#ffffff" },
+		{ token: 'SYMBOLS', foreground: '#F1ED11' },
+	]
+});
   return (
 
     <ThemeProvider theme={mdTheme}>
@@ -170,12 +200,12 @@ function DashboardContent() {
                     <MonacoEditor
                       // height="400"
                       // width="1000"
-                      language="javascript"
+                      language="mySpecialLanguage"
                       defaultValue={localStorage.editorSavedText}
                       options={options}
                       onChange={onChange}
                       editorDidMount={monacoEditorLoaded}
-                      theme={theme ? "vs-light" : "vs-dark"}
+                      theme="myCoolTheme"
                     />
                   </React.Fragment>
                 </Paper>

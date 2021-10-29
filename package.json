@@ -5,7 +5,8 @@
   "description": "Monaco Editor for React",
   "scripts": {
     "start": "webpack serve --open --config webpack.config.js --hot --inline --progress --port 3000 ",
-    "build": "webpack build --mode production --config webpack.config.js"
+    "build": "webpack build --mode production --config webpack.config.js",
+    "test": "jest"
   },
   "authors": [
     "Leon Shi <superRaytin@gmail.com>",
@@ -19,6 +20,7 @@
     "@babel/preset-react": "^7.14.5",
     "babel-loader": "^8.2.2",
     "css-loader": "^6.3.0",
+    "jest": "^27.3.1",
     "monaco-editor-webpack-plugin": "^4.2.0",
     "style-loader": "^3.3.0",
     "webpack": "^5.55.1",
@@ -32,6 +34,9 @@
     "@mui/icons-material": "^5.0.5",
     "@mui/material": "^5.0.6",
     "file-loader": "^6.2.0",
+    "itt": "^0.7.3",
+    "moo": "^0.5.1",
+    "pprint": "^0.0.1",
     "randexp": "^0.5.3",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
