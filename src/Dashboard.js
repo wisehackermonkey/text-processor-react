@@ -5,6 +5,7 @@ import Deposits from './Deposits';
 import Orders from './Orders';
 import Main from "./Main"
 import Title from './Title';
+
 import PatternGen from './PatternGen';
 import RegexReplace from "./RegexReplace"
 import PatternSelector from './PatternSelector';
@@ -217,14 +218,14 @@ monaco.editor.defineTheme('myCoolTheme', {
                     p: 2,
                     display: 'flex',
                     flexDirection: 'column',
-                    height: 800,
+                    // height: 800,
                   }}
                 >
                   <>
                     <h1>Regex Replace</h1>
                     <RegexReplace editor={editor} />
                     <hr />
-                    <PatternSelector />
+                    <PatternSelector editor={editor}/>
                     <hr />
                     <h1>Generate Text Using Regex Expressions</h1>
                     <PatternGen editor={editor} />

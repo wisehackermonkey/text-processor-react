@@ -1,18 +1,23 @@
 import React from "react"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { styled } from '@mui/material/styles';
 import { useTheme } from '@mui/material/styles';
 import Chip from '@mui/material/Chip';
 import Paper from '@mui/material/Paper';
 import TagFacesIcon from '@mui/icons-material/TagFaces';
-
+import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
- 
+import Stack from '@mui/material/Stack';
+
+import patternParse from "./lib/patternParse";
+import { Button } from "@mui/material";
+import { Label } from "@mui/icons-material";
+
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -24,20 +29,23 @@ const MenuProps = {
     },
 };
 
- 
 
+let key_start = 5
 const names = [
-    'Oliver Hansen',
-    'Van Henry',
-    'April Tucker',
-    'Ralph Hubbard',
-    'Omar Alexander',
-    'Carlos Abbott',
-    'Miriam Wagner',
-    'Bradley Wilkerson',
-    'Virginia Andrews',
-    'Kelly Snyder',
-];
+    { name: "Control Characters", label: 'CONTROL' },
+    { name: "Symbols", label: 'SYMBOLS' },
+    { name: "Letters", label: 'LETTERS' },
+    { name: "Numbers", label: 'NUMBERS' }
+]
+
+// = [
+//     'Control Characters',
+//     'Numbers',
+//     'Letters',
+//     'Symbols'
+// ];
+
+
 
 function getStyles(name, personName, theme) {
     return {
@@ -52,9 +60,10 @@ const ListItem = styled('li')(({ theme }) => ({
     margin: theme.spacing(0.5),
 }));
 
-const PatternSelector = () => {
+const PatternSelector = ({ editor }) => {
     const theme = useTheme();
     const [personName, setPersonName] = React.useState([]);
+    const [regexpattern, setSetRegexPattern] = useState("")
 
     const handleChange = (event) => {
         const {
@@ -64,27 +73,60 @@ const PatternSelector = () => {
             // On autofill we get a the stringified value.
             typeof value === 'string' ? value.split(',') : value,
         );
+        key_start += 1
+        setChipData(chipData.concat({ key: key_start, label: value }))
     };
+    const Control = { key: 0, label: 'CONTROL' }
+    const Symbol = { key: 1, label: 'SYMBOLS' }
+    const Letter = { key: 2, label: 'LETTERS' }
+    const Number = { key: 3, label: 'NUMBERS' }
+
     const [chipData, setChipData] = React.useState([
-        { key: 0, label: 'Angular' },
-        { key: 1, label: 'jQuery' },
-        { key: 2, label: 'Polymer' },
-        { key: 3, label: 'React' },
-        { key: 4, label: 'Vue.js' },
+        // Control,
+        // Symbol,
+        // Letter,
+        // Number
     ]);
 
     const handleDelete = (chipToDelete) => () => {
         setChipData((chips) => chips.filter((chip) => chip.key !== chipToDelete.key));
     };
+
+    useEffect(() => {
+
+        let tokens = {
+            CONTROL: `([\\t\\n\\r]+)`,
+            NUMBERS: `(0|[1-9][0-9]*)`,
+            LETTERS: `([a-zA-Z]+)`,
+            SYMBOLS: `([^\\s\\t\\r\\-a-zA-Z0-9]+)`
+        }
+        let parsed = chipData.map(x => x.label)
+        let string_regex = parsed.reduce((accumulator, value, index, array) => {
+            return accumulator + tokens[value]
+        }, "")
+        setSetRegexPattern(`/${string_regex}/g`)
+
+    }, [chipData])
     return (
-        <div>
+        <Stack spacing={3}>
+            
+            <h1> Build Regex Pattern (Easy) </h1>
+            <TextField
+                id="outlined-multiline-static"
+                variant="standard"
+                placeholder="Example"
+                multiline
+                value={regexpattern}
+                rows={4}
+             />
+
             <Paper
                 sx={{
                     display: 'flex',
                     justifyContent: 'center',
                     flexWrap: 'wrap',
                     listStyle: 'none',
-                    p: 0.5,
+                    p: 1,
                     m: 0,
                 }}
                 component="ul"
@@ -107,37 +149,21 @@ const PatternSelector = () => {
                     );
                 })}
             </Paper>
-            <hr />
-            <FormControl sx={{ m: 1, width: 300 }}>
-                <InputLabel id="demo-multiple-chip-label">Chip</InputLabel>
-                <Select
-                    labelId="demo-multiple-chip-label"
-                    id="demo-multiple-chip"
-                    multiple
-                    value={personName}
-                    onChange={handleChange}
-                    input={<OutlinedInput id="select-multiple-chip" label="Chip" />}
-                    renderValue={(selected) => (
-                        <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
-                            {selected.map((value) => (
-                                <Chip key={value} label={value} />
-                            ))}
-                        </Box>
-                    )}
-                    MenuProps={MenuProps}
-                >
-                    {names.map((name) => (
-                        <MenuItem
-                            key={name}
-                            value={name}
-                            style={getStyles(name, personName, theme)}
-                        >
-                            {name}
-                        </MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
-        </div>
+             
+            <Stack direction="row"  sx={{
+                    justifyContent: 'center',
+                }} spacing={3}>
+                {names.map((value, key) => {
+                    return <Button variant="contained" key={key} onClick={() => {
+                        key_start += 1;
+                        console.log(value)
+                        setChipData(chipData.concat({ key: key_start, label: value.label }))
+
+                    }} >{value.name}</Button>
+                })}
+            </Stack>
+             
+        </Stack>
     );
 }
 

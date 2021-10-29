@@ -12,14 +12,14 @@ let lexer = moo.compile({
     // CONTROL: /[ \t]+/,
     CONTROL: { match: /[ \t\n\r]+/, lineBreaks: true },
     // comment: /\/\/.*?$/,
-    numbers: /0|[1-9][0-9]*/,
-    letters: /[a-zA-Z]+/,
+    NUMBERS: /0|[1-9][0-9]*/,
+    LETTERS: /[a-zA-Z]+/,
     // punctuation: /[\.,'";&:!?]+/,
-    symbols: /[\.,'";&:!?`~@#$%^*|\}\]\(\)]+/,
+    SYMBOLS: /[^\s\t\r\-0-9a-zA-Z]+/,
     // string: /"(?:\\["\\]|[^\n"\\])*"/,
     // lparen: '(',
     // rparen: ')',
-    keyword: [`'while'`, 'if', 'else', 'moo', 'cows'],
+    // keyword: [`'while'`, 'if', 'else', 'moo', 'cows'],
     // newline: { match: /\n/, lineBreaks: false },
 })
  
@@ -49,7 +49,7 @@ const patternParse =(input,include_range=false)=>{
 }
 
 console.log(patternParse("aaaa1111"))
-console.log(patternParse("while4"))
+console.log(patternParse("Example Text to convert into csv!"))
 
 input_example = "\n3333bbbbb"
 // patternParse(input_example)[2]
