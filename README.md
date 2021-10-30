@@ -38,7 +38,16 @@ yarn run cypress:open
 yarn
 yarn run cy:ci
 ```
+### Github actions how to setup DASHBOARDRECORDKEY
+ <image height="500" src="assets/2021-10-29-17-59-05.png">
 
+ # [Actions secrets](https://github.com/wisehackermonkey/text-processor-react/settings/secrets/actions)
+# [Actions secrets](https://github.com/<USErNAME/<REPONAME>/settings/secrets/actions)
+  <image height="200" src="assets/2021-10-29-17-59-40.png">
+
+# https://dashboard.cypress.io/projects/
+
+ <image height="300" src="assets/2021-10-29-18-00-50.png">
 
 # TODO add
 - ~~better css~~ DONE
