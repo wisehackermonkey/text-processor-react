@@ -8,8 +8,8 @@
     "build": "webpack build --mode production --config webpack.config.js",
     "test": "jest",
     "cy:run": "cypress run",
-    "test-cy":"webpack serve  --config webpack.config.js --port 3000",
-    "cy:ci": "START_SERVER_AND_TEST_INSECURE=1 start-server-and-test test-cy https-get://localhost:3000 cy:run",
+    "start-server":"webpack serve  --config webpack.config.js --port 3000",
+    "cy:ci": "START_SERVER_AND_TEST_INSECURE=1 start-server-and-test start-server https-get://localhost:3000 cy:run",
 
     "cypress:open": "cypress open"
   },
