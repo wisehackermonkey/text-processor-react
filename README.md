@@ -39,6 +39,7 @@ yarn
 yarn run cy:ci
 ```
 ### Github actions how to setup DASHBOARDRECORDKEY
+### [cypress setup api key](https://docs.cypress.io/guides/dashboard/projects#Set-up-a-project-to-record)
  <image height="500" src="assets/2021-10-29-17-59-05.png">
 
  # [Actions secrets](https://github.com/wisehackermonkey/text-processor-react/settings/secrets/actions)

@@ -1,5 +1,5 @@
 name: Cypress Tests with Install Job and UI Chrome Job x 5
-
+# https://docs.cypress.io/guides/continuous-integration/github-actions#Worker-Jobs
 on: [push]
 
 jobs:
@@ -13,9 +13,9 @@ jobs:
       - name: Save build folder
         uses: actions/upload-artifact@v2
         with:
-          name: build
+          name: dist
           if-no-files-found: error
-          path: build
+          path: dist
 
       - name: Cypress install
         uses: cypress-io/github-action@v2
