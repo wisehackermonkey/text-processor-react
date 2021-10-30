@@ -24,8 +24,22 @@ yarn
 yarn start
 ```
 
-### Then open `http://localhost:8886` in a browser.
- 
+### Then open `http://localhost:8886` in a browser
+
+
+## Locally run integration tests with crypress
+```bash
+yarn
+yarn run cypress:open
+```
+
+### Run integration tests with crypress
+```bash
+yarn
+yarn run cy:ci
+```
+
+
 # TODO add
 - ~~better css~~ DONE
 - ~~add localstorage~~ DONE
