@@ -2,7 +2,7 @@
 
 describe('My First Test', () => {
     it('search replace "type"', () => {
-        cy.visit('http://localhost:3000')
+        cy.visit('https://wisehackermonkey.github.io/text-processor-react/')
 
         cy.get('.view-lines').click({ force: true }).type(`test\ntest`)
         cy.get('[value="multi_newline"]').click({ force: true })
