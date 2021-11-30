@@ -153,7 +153,7 @@ const PatternSelector = ({ editor }) => {
                 print(selectedText)
                 SetPatternExtract(selectedText)
             }
-            }>Paste Editor Selection</Button>
+            }>Get Current Selection</Button>
             <TextField
                 id="outlined-multiline-static"
                 variant="standard"
