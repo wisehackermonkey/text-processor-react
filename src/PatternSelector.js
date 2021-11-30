@@ -32,18 +32,12 @@ const MenuProps = {
 
 let key_start = 5
 const names = [
-    { name: "Control Characters", label: 'CONTROL' },
-    { name: "Symbols", label: 'SYMBOLS' },
-    { name: "Letters", label: 'LETTERS' },
-    { name: "Numbers", label: 'NUMBERS' }
+    { name: "A-Z", label: 'LETTERS' },
+    { name: "1234", label: 'NUMBERS' },
+    { name: "Tab return Space", label: 'CONTROL' },
+    { name: "(){},?#...", label: 'SYMBOLS' },
 ]
-
-// = [
-//     'Control Characters',
-//     'Numbers',
-//     'Letters',
-//     'Symbols'
-// ];
+ 
 
 
 
