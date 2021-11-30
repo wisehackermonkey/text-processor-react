@@ -18,6 +18,15 @@ import patternParse from "./lib/patternParse";
 import { Button } from "@mui/material";
 import { Label } from "@mui/icons-material";
 
+import Parser from "../src/lib/parser"
+import h from "./helper"
+
+
+// pipe(input object, <function or >,[<fn>, <option data>])
+// this returns result of all functions running in a pipe
+const pipe = (firstValue, ...fns) => [...fns].reduce((v, fn) => { if (Array.isArray(fn)) { if (fn.length >= 2) { return fn[0](v, fn[1]) } } return fn(v) }, firstValue)
+const print = (x) => { console.log(x); return x }
+
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -34,10 +43,17 @@ let key_start = 5
 const names = [
     { name: "A-Z", label: 'LETTERS' },
     { name: "1234", label: 'NUMBERS' },
-    { name: "Tab return Space", label: 'CONTROL' },
+    { name: "WHITESPACE", label: 'WHITESPACE' },
     { name: "(){},?#...", label: 'SYMBOLS' },
 ]
- 
+
+const MAPPING =
+{
+    LETTERS: "A-Z",
+    NUMBERS: "1234",
+    WHITESPACE: "WHITESPACE",
+    SYMBOLS: "(){},?#..."
+}
 
 
 
@@ -58,7 +74,7 @@ const PatternSelector = ({ editor }) => {
     const theme = useTheme();
     const [personName, setPersonName] = React.useState([]);
     const [regexpattern, setSetRegexPattern] = useState("")
-
+    const [patternExtract, SetPatternExtract] = useState("")
     const handleChange = (event) => {
         const {
             target: { value },
@@ -89,8 +105,8 @@ const PatternSelector = ({ editor }) => {
     useEffect(() => {
 
         let tokens = {
-            CONTROL: `([\\t\\n\\r]+)`,
-            NUMBERS: `(0|[1-9][0-9]*)`,
+            WHITESPACE: `([\\t\\n\\r]+)`,
+            NUMBERS: `([0-9]+)`,
             LETTERS: `([a-zA-Z]+)`,
             SYMBOLS: `([^\\s\\t\\r\\-a-zA-Z0-9]+)`
         }
@@ -101,10 +117,43 @@ const PatternSelector = ({ editor }) => {
         setSetRegexPattern(`/${string_regex}/g`)
 
     }, [chipData])
+
+    useEffect(() => {
+        let editor_text = patternExtract//editor.getValue()
+        console.log(editor_text)
+        pipe(Parser.extract(editor_text), print, (x) => {
+
+            let res = []
+            res = x.map((d) => {
+                return { key: key_start + Math.random(), label: d.token }
+            });
+
+            setChipData(res);
+        });
+    }, [patternExtract])
+
+
+
     return (
         <Stack spacing={3}>
-            
-            <h1> Build Regex Pattern (Easy) </h1>
+
+            <h1>Easy Build Regex Pattern</h1>
+            <TextField
+                id="outlined-multiline-static"
+                variant="standard"
+                placeholder="letters12345#@$$%"
+                multiline
+                value={patternExtract}
+                onInput={(e) => SetPatternExtract(e.target.value)}
+
+                rows={4}
+            />
+            <Button variant="contained" onClick={() => {
+                let selectedText = h.getSelectedText(editor)
+                print(selectedText)
+                SetPatternExtract(selectedText)
+            }
+            }>Paste Editor Selection</Button>
             <TextField
                 id="outlined-multiline-static"
                 variant="standard"
@@ -112,7 +161,7 @@ const PatternSelector = ({ editor }) => {
                 multiline
                 value={regexpattern}
                 rows={4}
-             />
+            />
 
             <Paper
                 sx={{
@@ -136,17 +185,17 @@ const PatternSelector = ({ editor }) => {
                         <ListItem key={data.key}>
                             <Chip
                                 icon={icon}
-                                label={data.label}
+                                label={MAPPING[data.label]}
                                 onDelete={data.label === 'React' ? undefined : handleDelete(data)}
                             />
                         </ListItem>
                     );
                 })}
             </Paper>
-             
-            <Stack direction="row"  sx={{
-                    justifyContent: 'center',
-                }} spacing={3}>
+
+            <Stack direction="row" sx={{
+                justifyContent: 'center',
+            }} spacing={3}>
                 {names.map((value, key) => {
                     return <Button variant="contained" key={key} onClick={() => {
                         key_start += 1;
@@ -156,7 +205,10 @@ const PatternSelector = ({ editor }) => {
                     }} >{value.name}</Button>
                 })}
             </Stack>
-             
+            <Button variant="contained" onClick={() => {
+                setChipData([])
+            }} >Clear</Button>
+
         </Stack>
     );
 }

@@ -1,5 +1,7 @@
 module.exports = {
-     
+    getSelectedText:(editor)=>{
+      return editor.getModel().getValueInRange(editor.getSelection())
+    },
     string_to_regexp :(input)=>{
       //   Converting user input string to regular expression
       //   source https://stackoverflow.com/a/874742/16309718
