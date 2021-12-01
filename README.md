@@ -24,7 +24,30 @@ yarn
 yarn start
 ```
 
-### Then open `http://localhost:8886` in a browser
+### Then open `http://localhost:3000` in a browser
+
+
+
+# how to debug regex generator grammer parser
+```
+yarn global add  nearley
+nearleyc grammer.ne -o src/lib/grammer.js
+nearley-railroad grammer.ne -o grammar.html
+python -m http.server 80
+```
+### open grammar.html in your browser to view railroad diagram of grammer
+### http://localhost:80/grammar.html
+
+## nearley test with cli
+```bash
+nearley-test -i "#00ff00" src/lib/grammer.js
+nearley-test -i "a\na" src/lib/grammer.js
+```
+## nearely generate examples
+```bash
+nearley-unparse -n 3 src/lib/grammer.js
+```
+
 
 
 ## Locally run integration tests with crypress
@@ -38,16 +61,6 @@ yarn run cypress:open
 yarn
 yarn run cy:ci
 ```
-
-# how to debug regex generator grammer parser
-```
-yarn global add  nearley
-nearleyc grammer.ne -o src/lib/grammer.js
-nearley-railroad grammer.ne -o grammar.html
-python -m http.server 80
-```
-### open grammar.html in your browser to view railroad diagram of grammer
-### http://localhost:80/grammar.html
 
 ### Github actions how to setup DASHBOARDRECORDKEY
 ### [cypress setup api key](https://docs.cypress.io/guides/dashboard/projects#Set-up-a-project-to-record)

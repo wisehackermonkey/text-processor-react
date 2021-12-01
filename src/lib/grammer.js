@@ -8,10 +8,11 @@ function id(x) { return x[0]; }
 
 	const moo = require("moo")
 	const lexer = moo.compile({
-	  whitespace: { match: /[\s\t\n]+/, lineBreaks: true },
+	  newline: { match: /\n+/, lineBreaks: true },
+	  whitespace: /[ \t]+/,
 	  number: /[0-9]+/,
  	  word: /[a-zA-Z]+/,
-	  symbols: /[^a-zA-Z0-9\s\t\n\r]+/
+	  symbols: /[^a-zA-Z0-9 \t\n\r]+/
 	});
 
 
@@ -123,11 +124,13 @@ var grammar = {
     {"name": "terminals", "symbols": ["NUMBERS"]},
     {"name": "terminals", "symbols": ["LETTERS"]},
     {"name": "terminals", "symbols": ["SYMBOLS"]},
-    {"name": "terminals", "symbols": ["WHITESPACE"], "postprocess": d=> d[0]},
+    {"name": "terminals", "symbols": ["WHITESPACE"]},
+    {"name": "terminals", "symbols": ["NEWLINE"], "postprocess": d=> d[0]},
     {"name": "LETTERS", "symbols": [(lexer.has("word") ? {type: "word"} : word)], "postprocess": ([first])=>( {"type": first.type,"text":first.text, token: 'LETTERS'})},
     {"name": "SYMBOLS", "symbols": [(lexer.has("symbols") ? {type: "symbols"} : symbols)], "postprocess": ([first])=>( {"type": first.type,"text":first.text, token: 'SYMBOLS'})},
     {"name": "NUMBERS", "symbols": [(lexer.has("number") ? {type: "number"} : number)], "postprocess": ([first])=>( {"type": first.type,"text":first.text, token: 'NUMBERS'})},
-    {"name": "WHITESPACE", "symbols": [(lexer.has("whitespace") ? {type: "whitespace"} : whitespace)], "postprocess": ([first])=>( {"type": first.type,"text":first.text, token: 'WHITESPACE'})}
+    {"name": "WHITESPACE", "symbols": [(lexer.has("whitespace") ? {type: "whitespace"} : whitespace)], "postprocess": ([first])=>( {"type": first.type,"text":first.text, token: 'WHITESPACE'})},
+    {"name": "NEWLINE", "symbols": [(lexer.has("newline") ? {type: "newline"} : newline)], "postprocess": ([first])=>( {"type": first.type,"text":first.text, token: 'NEWLINE'})}
 ]
   , ParserStart: "main"
 }

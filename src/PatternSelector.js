@@ -45,6 +45,7 @@ const names = [
     { name: "1234", label: 'NUMBERS' },
     { name: "WHITESPACE", label: 'WHITESPACE' },
     { name: "(){},?#...", label: 'SYMBOLS' },
+    { name: "↩️", label: 'NEWLINE' },
 ]
 
 const MAPPING =
@@ -52,7 +53,8 @@ const MAPPING =
     LETTERS: "A-Z",
     NUMBERS: "1234",
     WHITESPACE: "WHITESPACE",
-    SYMBOLS: "(){},?#..."
+    SYMBOLS: "(){},?#...",
+    NEWLINE: "↩️"
 }
 
 
@@ -105,10 +107,11 @@ const PatternSelector = ({ editor }) => {
     useEffect(() => {
 
         let tokens = {
-            WHITESPACE: `([\\t\\n\\r]+)`,
+            WHITESPACE: `([\\t ]+)`,
             NUMBERS: `([0-9]+)`,
             LETTERS: `([a-zA-Z]+)`,
-            SYMBOLS: `([^\\s\\t\\r\\-a-zA-Z0-9]+)`
+            SYMBOLS: `([^ \\t\\r\\-a-zA-Z0-9]+)`,
+            NEWLINE: `([\n]+)`
         }
         let parsed = chipData.map(x => x.label)
         let string_regex = parsed.reduce((accumulator, value, index, array) => {
