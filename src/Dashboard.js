@@ -116,9 +116,9 @@ function DashboardContent() {
     TextPipeline.init(__editor__,MonacoEditor,{},[])
     // TextPipeline.init(null,null,{},[])
 
-    // TextPipeline.default(`line 1, line 2, line 3, line 4`)
+    TextPipeline.defaultText(`line 1, line 2, line 3, line 4`)
     TextPipeline.execute()
-    // console.log(TextPipeline.getText())
+    console.log(TextPipeline.getText())
 
     console.log("__Editor__ loaded")
     __editor__.focus();

@@ -21,7 +21,7 @@ import MonacoApi from "./editors/MonacoApi.js";
 // import TextPipeline from "./src/core.js";
 // let TextPipeline = new TextPipeline()
 // TextPipeline.init(MonacoApi,{},[])
-// TextPipeline.default(`line 1, line 2, line 3, line 4`)
+// TextPipeline.defaultText(`line 1, line 2, line 3, line 4`)
 // TextPipeline.execute()
 // console.log(TextPipeline.getText())
 
@@ -45,22 +45,23 @@ const Core = {
         this.status = "loaded"
         console.log(`${this.name} ${this.version} loaded`)
     },
-    swapColumns: function (input,options) {
-        let result = []
-        let columns = input.split("\n")
-        let columnCount = columns[0].split("\t").length
-        for (let i = 0; i < columnCount; i++) {
-            let column = []
-            for (let j = 0; j < columns.length; j++) {
-                let row = columns[j].split("\t")
-                column.push(row[i])
-            }
-            result.push(column.join("\t"))
-        }
-        return result.join("\n")
-    },
+    
     execute:function (input, options) {
-        return pipe(input,  this.swapColumns )
+        function swapColumns(input,options) {
+            let result = []
+            let columns = input.split("\n")
+            let columnCount = columns[0].split("\t").length
+            for (let i = 0; i < columnCount; i++) {
+                let column = []
+                for (let j = 0; j < columns.length; j++) {
+                    let row = columns[j].split("\t")
+                    column.push(row[i])
+                }
+                result.push(column.join("\t"))
+            }
+            return result.join("\n")
+        }
+        return pipe(input,   swapColumns )
     }
         
     }],
@@ -88,9 +89,8 @@ const Core = {
         //pipe is a fancy way to call nested functions
         console.log("execute")
         // let __pluggins =this.pluggins.map(pl => { pl.execute })
-        debugger
-        let __pluggins = this.pluggins.map(pl => [pl.execute])
-        debugger
+         let __pluggins = this.pluggins.map(pl => [pl.execute])
+         
         let result = pipe(this.__text__, this.pluggins[0].execute)
         return result
     },

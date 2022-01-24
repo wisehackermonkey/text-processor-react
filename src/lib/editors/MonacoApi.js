@@ -1,4 +1,4 @@
-import MonacoEditor from "react-monaco-editor";
+import { monaco } from 'react-monaco-editor';
 // helpers
 function Enum() {
     for (var i in arguments) {
@@ -45,14 +45,14 @@ const MonacoApi = {
         if(text === undefined || text === null) {
             return [null,Status.NoDefaultTextSet]
         }
-        return [this.editor.setModel(this.Editor.editor.createModel(text, 'text/plain')),Status.Success]
+        return [this.editor.setModel(monaco.editor.createModel(text, 'text/plain')),Status.Success]
     },
     // note: row and column start at 1 instead of 0
     getText: function(row, column, rowEnd = 80, columEnd = 1, selected = false, selectedMulti = false)  {
         // TODO untstested
         // TODO untstested
         if (row === null && column === null && rowEnd === null && columEnd === null && selected === false && selectedMulti === false) {
-            return [editor.getModel().getValue(), Status.Success]
+            return [this.editor.getModel().getValue(), Status.Success]
         }
 
         //TODO untested
