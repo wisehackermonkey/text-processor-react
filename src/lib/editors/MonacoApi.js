@@ -1,29 +1,113 @@
-var Status = new Enum("Success", "Failed", "EditorNotSet", "PlugginNotSet", "Loaded", "Unknown", "WrongInputType", "InternalError", "WentTooFarInArray")
+var Status = new Enum("Success", "Failed","FeatureNotCreatedYet","NoDefaultTextSet", "ErrorMissingTextToReplace", "EditorNotSet", "PlugginNotSet", "Loaded", "Unknown", "WrongInputType", "InternalError", "WentTooFarInArray")
+import MonacoEditor from "react-monaco-editor";
 
+/*
+
+const ed = new MonacoApi()
+ed.init(editor,{},[])
+ed.default(`line 1,
+line 2,
+line 3,
+line 4`)
+
+ed.getText()
+ed.getText(3,3)
+ed.getText(selection=true) //TODO unemplemented
+ed.getText(selectedMulti=true) //TODO unemplemented
+
+*/
 export default MonacoApi = {
     name: "MonacoApi",
     version: "0.0.1",
     description: "MonacoApi",
     pluggins: [],
-    editor: null,
+    editor: null,//instance of the editor
+    Editor: null,//library of the editor
     init: (editor, settings, pluggins) => {
         // call this first
-        this.pluggins = pluggins
+        this.pluggins.push(...pluggins)
         this.settings = settings
         this.editor = editor
+        //TODO untested
+        this.Editor = MonacoEditor
     },
-    getText: (row, column, rowStart = 0, columEnd = 0, selected = false, multiSelection = false) => {
+    default: (text) => {
+        //TODO untested
+        if(text === undefined || text === null) {
+            return [null,Status.NoDefaultTextSet]
+        }
+        return [this.editor.setModel(this.Editor.editor.createModel(text, 'text/plain')),Status.Success]
+    },
+    // note: row and column start at 1 instead of 0
+    getText: (row, column, rowEnd = 80, columEnd = 1, selected = false, selectedMulti = false) => {
+        // TODO untstested
+        // TODO untstested
+        if (row === null && column === null && rowEnd === null && columEnd === null && selected === false && selectedMulti === false) {
+            return [editor.getModel().getValue(), Status.Success]
+        }
+
+        //TODO untested
+        if (row && column && rowEnd !== 0 && columEnd !== 0) {
+            return this.editor.getModel().getValueInRange({
+                startLineNumber: row,
+                startColumn: column,
+                endLineNumber: rowEnd,
+                endColumn: columEnd
+            })
+        }
+        return [null, Status.FeatureNotCreatedYet]
+        // TODO untstested
         if (this.editor === null) {
             return [null, Status.EditorNotSet]
         }
-        if (selected) {
+        // TODO untstested
+        if (selectedMulti && selected === false && rowEnd === 0 && columEnd === 0) {
+            return [null, Status.WrongInputType]
+        }
+        // TODO untstested
+        if (selected && row === null && column === null) {
             return editor.getModel().getValueInRange(editor.getSelection())
         }
-    },
-    getText: (selection = { rowStart=0, columEnd=0 }) => {
+        // TODO untstested
+        if (row === null && column === null) {
+            return editor.getModel().getValue()
+        }
+
 
     },
-    setText: (text, selectionReplace = false) => {
+    getText: (selectRange = { rowEnd = 80, columEnd = 1}) => {
+        return [null, Status.FeatureNotCreatedYet]
+    },
+    setText: (text, selectedReplace = false, selectedMulti = false) => {
+        if (!text) {
+            return [null, Status.ErrorMissingTextToReplace]
+        }
+        if (this.editor === null) {
+            return [null, Status.EditorNotSet]
+        }
+        if(text && selectedReplace === false && selectedMulti === false){
+            this.editor.setValue(text)
+            return [text, Status.Success]
+        }
+
+        if (selectedReplace && selectedMulti) {
+            return [null, Status.WrongInputType]
+        }
+        if (selectedReplace) {
+            return [null, Status.FeatureNotCreatedYet]
+
+            // this.editor.setModel(new this.Editor.Model(text, this.editor.getModel().getModeId()))
+        }
+        if (selectedMulti) {
+            return [null, Status.FeatureNotCreatedYet]
+            // this.editor.setModel(new this.Editor.Model(text, this.editor.getModel().getModeId()))
+        }
+        if (!selectedReplace && !selectedMulti) {
+            return [null, Status.FeatureNotCreatedYet]
+
+            this.editor.setModel(new this.Editor.Model(text, this.editor.getModel().getModeId()))
+        }
+    
     },
     onUpdate: (callback) => {
     },
@@ -51,6 +135,16 @@ export default MonacoApi = {
         var id = { major: 1, minor: 1 };
         var op = { identifier: id, range: selection, text: text, forceMoveMarkers: true };
         editor.executeEdits("my-source", [op]);
+    },
+    getMultiSelectionText: (editor) => {
+        // TODO untstested
+        var selections = editor.getSelections()
+        var text = []
+        selections.map((selection) => {
+            text.push(editor.getModel().getValueInRange(selection))
+        })
+        return text
+
     },
     multiSelectionReplace: (editor, text) => {
         var selections = editor.getSelections()
