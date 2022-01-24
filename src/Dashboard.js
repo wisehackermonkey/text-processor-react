@@ -37,7 +37,10 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
 import MonacoApi from "./lib/editors/MonacoApi.js";
-import TextPipeline from "./lib/core.js";
+import Core from "./lib/core.js";
+
+var TextPipeline = Core;
+
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -107,12 +110,14 @@ function DashboardContent() {
   let [editor, setEditor] = useState(null)
 
   let monacoEditorLoaded = (__editor__, monaco) => {
+    console.log(TextPipeline)
+    console.log(__editor__) 
+    TextPipeline.init(__editor__,MonacoEditor,{},[])
+    // TextPipeline.init(null,null,{},[])
 
-    let TextPipeline = new TextPipeline()
-    TextPipeline.init(null,__editor__,monaco,{},[])
-    TextPipeline.default(`line 1, line 2, line 3, line 4`)
-    TextPipeline.execute()
-    console.log(TextPipeline.getText())
+    // TextPipeline.default(`line 1, line 2, line 3, line 4`)
+    // TextPipeline.execute()
+    // console.log(TextPipeline.getText())
 
     console.log("__Editor__ loaded")
     __editor__.focus();

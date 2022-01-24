@@ -14,14 +14,15 @@ function Enum() {
 //error types
 var Status = new Enum("Success", "Failed","PlugginFailedToLoadFileNotFound", "FeatureNotCreatedYet", "EditorTextIsSameAsUpdateText", "NoDefaultTextSet", "ErrorMissingTextToReplace", "EditorNotSet", "PlugginNotSet", "Loaded", "Unknown", "WrongInputType", "InternalError", "WentTooFarInArray")
 
-// import MonacoApi from "./editors/MonacoApi.js";
+import MonacoApi from "./editors/MonacoApi.js";
 // import TextPipeline from "./src/core.js";
 // let TextPipeline = new TextPipeline()
 // TextPipeline.init(MonacoApi,{},[])
 // TextPipeline.default(`line 1, line 2, line 3, line 4`)
 // TextPipeline.execute()
 // console.log(TextPipeline.getText())
-export default TextPipeline = {
+
+const Core = {
     name: "TextPipeline",
     version: "0.0.1",
     description: "Text TextPipeline",
@@ -66,14 +67,16 @@ export default TextPipeline = {
         },
 
     }],
-    initalize: (defaultText, editor, EditorApi, settings = {}, pluggins = [], editorPluggins = []) => {
+    init: function( editor, EditorApi, settings = {}, pluggins = [], editorPluggins = []) {
         //example:
         // Processor.initalize("", MonacoApi, {}, [], [])
         // 
-        this.pluggins.push(...pluggins)
-        this.settings = settings
+        // this.pluggins.push(...pluggins)
+        // this.settings = settings
+        console.log("init")
+        console.log(this)
         this.editor = editor
-        this.EditorApi = EditorApi
+        this.EditorApi = MonacoApi
 
         //settup
         this.EditorApi.init(editor, settings, editorPluggins)
@@ -92,11 +95,11 @@ export default TextPipeline = {
         return this.__text__
     },
     
-    setText: (text)=> {
+    setText: function(text){
         this.EditorApi.setText(text)
         this.__text__ = text
     },
-    updateText:  (text, column = 0, row = 0)=> {
+    updateText:  function(text, column = 0, row = 0){
         return [null, Status.FeatureNotCreatedYet]
 
         if (this.__text__ === text) {
@@ -115,7 +118,7 @@ export default TextPipeline = {
         this.__text__ = result
         return [result, status]
     },
-    editorEvent: (event)=> {
+    editorEvent: function(event){
         //TODO not implemented
         return [null, Status.FeatureNotCreatedYet]
 
@@ -148,3 +151,5 @@ export default TextPipeline = {
         return pipe(this.__text__, this.pluggins.map(pl => { pl.execute}))
     }
 }
+
+export default Core;

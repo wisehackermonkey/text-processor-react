@@ -1,6 +1,12 @@
-var Status = new Enum("Success", "Failed","FeatureNotCreatedYet","NoDefaultTextSet", "ErrorMissingTextToReplace", "EditorNotSet", "PlugginNotSet", "Loaded", "Unknown", "WrongInputType", "InternalError", "WentTooFarInArray")
 import MonacoEditor from "react-monaco-editor";
+// helpers
+function Enum() {
+    for (var i in arguments) {
+        this[arguments[i]] = i;
+    }
+}
 
+var Status = new Enum("Success", "Failed","FeatureNotCreatedYet","NoDefaultTextSet", "ErrorMissingTextToReplace", "EditorNotSet", "PlugginNotSet", "Loaded", "Unknown", "WrongInputType", "InternalError", "WentTooFarInArray")
 /*
 
 const ed = new MonacoApi()
@@ -19,7 +25,7 @@ ed.setText("works")
 ed.setText("works",3,3)
 ed.setText("works",row=3,column=3)
 */
-export default MonacoApi = {
+const MonacoApi = {
     name: "MonacoApi",
     version: "0.0.1",
     description: "MonacoApi",
@@ -28,11 +34,11 @@ export default MonacoApi = {
     Editor: null,//library of the editor
     init: (editor, settings, pluggins) => {
         // call this first
-        this.pluggins.push(...pluggins)
-        this.settings = settings
+        // this.pluggins.push(...pluggins)
+        // this.settings = settings
         this.editor = editor
         //TODO untested
-        this.Editor = MonacoEditor
+        // this.Editor = MonacoEditor
     },
     default: (text) => {
         //TODO untested
@@ -182,3 +188,5 @@ export default MonacoApi = {
         // }]);
     }
 }
+
+export default MonacoApi;
