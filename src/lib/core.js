@@ -133,7 +133,7 @@ export default TextPipeline = {
         //TODO not implemented
         return [null, Status.FeatureNotCreatedYet]
 
-        let chainStep = chainStep || pluggins.length;
+        var chainStep = chainStep || pluggins.length;
         this.pluggins.splice(chainStep, 0, pluggin)
     },
     replacePluggin: (pluggin, chainStep) => {

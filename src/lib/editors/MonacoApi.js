@@ -78,9 +78,7 @@ export default MonacoApi = {
 
 
     },
-    getText: (selectRange = { rowEnd = 80, columEnd = 1}) => {
-        return [null, Status.FeatureNotCreatedYet]
-    },
+
     setText: (text, selectedReplace = false, selectedMulti = false) => {
         if (!text) {
             return [null, Status.ErrorMissingTextToReplace]
