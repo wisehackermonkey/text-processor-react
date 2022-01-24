@@ -37,7 +37,7 @@ const Core = {
         libs: ["SwapColumns.js"],
         processor: null,
         processors: [],
-        load: (options) => {
+        load: function(options) {
             // load must be called before execute
             //example `./plugins/SwapColumns.js`
             import(`${this.path}${this.libs[0]}`).then(
@@ -59,7 +59,7 @@ const Core = {
                 }
             );
         },
-        execute: (input, options) => {
+        execute: function (input, options) {
             if (this.processor === null) {
                 return [null, Status.PlugginNotSet]
             }

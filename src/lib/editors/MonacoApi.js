@@ -32,7 +32,7 @@ const MonacoApi = {
     pluggins: [],
     editor: null,//instance of the editor
     Editor: null,//library of the editor
-    init: (editor, settings, pluggins) => {
+    init: function (editor, settings, pluggins){
         // call this first
         // this.pluggins.push(...pluggins)
         // this.settings = settings
@@ -40,7 +40,7 @@ const MonacoApi = {
         //TODO untested
         // this.Editor = MonacoEditor
     },
-    default: (text) => {
+    default: function (text){
         //TODO untested
         if(text === undefined || text === null) {
             return [null,Status.NoDefaultTextSet]
@@ -48,7 +48,7 @@ const MonacoApi = {
         return [this.editor.setModel(this.Editor.editor.createModel(text, 'text/plain')),Status.Success]
     },
     // note: row and column start at 1 instead of 0
-    getText: (row, column, rowEnd = 80, columEnd = 1, selected = false, selectedMulti = false) => {
+    getText: function(row, column, rowEnd = 80, columEnd = 1, selected = false, selectedMulti = false)  {
         // TODO untstested
         // TODO untstested
         if (row === null && column === null && rowEnd === null && columEnd === null && selected === false && selectedMulti === false) {
@@ -85,7 +85,7 @@ const MonacoApi = {
 
     },
 
-    setText: (text, selectedReplace = false, selectedMulti = false) => {
+    setText: function(text, selectedReplace = false, selectedMulti = false)  {
         if (!text) {
             return [null, Status.ErrorMissingTextToReplace]
         }
@@ -116,13 +116,13 @@ const MonacoApi = {
         }
     
     },
-    onUpdate: (callback) => {
+    onUpdate: function(callback)   {
     },
     //monaco spacific functions
-    getSelectedText: (editor) => {
+    getSelectedText: function (editor)   {
         return editor.getModel().getValueInRange(editor.getSelection())
     },
-    string_to_regexp: (input) => {
+    string_to_regexp: function(input)   {
         //   Converting user input string to regular expression
         //   source https://stackoverflow.com/a/874742/16309718
         var flags = input.replace(/.*\/([gimy]*)$/, '$1');
@@ -130,20 +130,20 @@ const MonacoApi = {
         var regex = new RegExp(pattern, flags);
         return regex
     },
-    pasteRegexPattern: (editor, text) => {
+    pasteRegexPattern: function(editor, text) {
         var selection = editor.getSelection();
         var id = { major: 1, minor: 1 };
         var op = { identifier: id, range: selection, text: text, forceMoveMarkers: true };
         editor.executeEdits("my-source", [op]);
     },
 
-    selectionReplace: (editor, text) => {
+    selectionReplace: function(editor, text) {
         var selection = editor.getSelection()
         var id = { major: 1, minor: 1 };
         var op = { identifier: id, range: selection, text: text, forceMoveMarkers: true };
         editor.executeEdits("my-source", [op]);
     },
-    getMultiSelectionText: (editor) => {
+    getMultiSelectionText: function(editor) {
         // TODO untstested
         var selections = editor.getSelections()
         var text = []
@@ -153,13 +153,13 @@ const MonacoApi = {
         return text
 
     },
-    multiSelectionReplace: (editor, text) => {
+    multiSelectionReplace: function(editor, text){
         var selections = editor.getSelections()
         var id = { major: 1, minor: 1 };
         var ops = selections.map(x => { return { identifier: id, range: x, text: text, forceMoveMarkers: true } })
         editor.executeEdits("my-source", ops);
     },
-    multiSelectionReplaceFn: (editor, fn) => {
+    multiSelectionReplaceFn: function(editor, fn) {
         //   example
         // h.multiSelectionReplaceFn(editor, ()=>new RandExp(/([a-b]){5}/g ).gen())
 
@@ -169,7 +169,7 @@ const MonacoApi = {
         editor.executeEdits("my-source", ops);
     },
     // wrapper around function that allows for control z for the editor
-    updateEditor: (editor, value) => {
+    updateEditor: function (editor, value)  {
         const fullRange = editor.getModel().getFullModelRange();
         if (value !== editor.getValue()) {
             editor.getModel().pushEditOperations(
