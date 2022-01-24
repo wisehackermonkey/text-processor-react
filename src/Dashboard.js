@@ -36,6 +36,8 @@ import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 
+import MonacoApi from "./editors/MonacoApi.js";
+import TextPipeline from "./src/core.js";
 function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
@@ -105,6 +107,13 @@ function DashboardContent() {
   let [editor, setEditor] = useState(null)
 
   let monacoEditorLoaded = (__editor__, monaco) => {
+
+    // let TextPipeline = new TextPipeline()
+    // TextPipeline.init(null,__editor__,monaco,{},[])
+    // TextPipeline.default(`line 1, line 2, line 3, line 4`)
+    // TextPipeline.execute()
+    // console.log(TextPipeline.getText())
+
     console.log("__Editor__ loaded")
     __editor__.focus();
     setEditor(__editor__)

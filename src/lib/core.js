@@ -12,12 +12,19 @@ function Enum() {
 // import MonacoApi from "./editors/MonacoApi.js";
 
 //error types
-var Status = new Enum("Success", "Failed", "FeatureNotCreatedYet", "EditorTextIsSameAsUpdateText", "NoDefaultTextSet", "ErrorMissingTextToReplace", "EditorNotSet", "PlugginNotSet", "Loaded", "Unknown", "WrongInputType", "InternalError", "WentTooFarInArray")
+var Status = new Enum("Success", "Failed","PlugginFailedToLoadFileNotFound", "FeatureNotCreatedYet", "EditorTextIsSameAsUpdateText", "NoDefaultTextSet", "ErrorMissingTextToReplace", "EditorNotSet", "PlugginNotSet", "Loaded", "Unknown", "WrongInputType", "InternalError", "WentTooFarInArray")
 
-export default Processor = {
-    name: "Processor",
+// import MonacoApi from "./editors/MonacoApi.js";
+// import TextPipeline from "./src/core.js";
+// let TextPipeline = new TextPipeline()
+// TextPipeline.init(MonacoApi,{},[])
+// TextPipeline.default(`line 1, line 2, line 3, line 4`)
+// TextPipeline.execute()
+// console.log(TextPipeline.getText())
+export default TextPipeline = {
+    name: "TextPipeline",
     version: "0.0.1",
-    description: "Text Processor",
+    description: "Text TextPipeline",
     editor: null,
     settings: {},
     __text__: "",//private please dont use
@@ -31,12 +38,25 @@ export default Processor = {
         processors: [],
         load: (options) => {
             // load must be called before execute
-            import __ from `${this.path}${this.libs[0]}`
-            this.processor = __
-            this.processors.push(this.processor)
+            //example `./plugins/SwapColumns.js`
+            import(`${this.path}${this.libs[0]}`).then(
+                (plugin) => {
+                    //  Do something with the module
+                
+           
+            this.processor = plugin
+            this.processors.push(plugin)
             this.processor.init(options)
 
             return [this.processor, Status.Loaded]
+        }
+            ).catch(
+                (error) => {
+                    return [this.processor, Status.PlugginFailedToLoadFileNotFound]
+
+                    // handle the case where module didn't load or something went wrong
+                }
+            );
         },
         execute: (input, options) => {
             if (this.processor === null) {
@@ -57,13 +77,23 @@ export default Processor = {
 
         //settup
         this.EditorApi.init(editor, settings, editorPluggins)
-        this.EditorApi.default(defaultText || null) //if nothing is passed, it will default to nothing changing
+      
+        //load pluggins
+        this.pluggins.map(pl => {
+            pl.load({})
+        })
+    },
+    defaultText: (text) => {
+        this.__text__ = text
+        this.EditorApi.default(text || null)
     },
     getText: (row = null, column = null, rowEnd = 80, columEnd = 1, selected = false, selectedMulti = false) => {
-        return ""
+        this.__text__ = this.EditorApi.getText(row, column, rowEnd, columEnd, selected, selectedMulti)
+        return this.__text__
     },
     
     setText: (text)=> {
+        this.EditorApi.setText(text)
         this.__text__ = text
     },
     updateText:  (text, column = 0, row = 0)=> {
@@ -92,21 +122,29 @@ export default Processor = {
         // this.editor.set
     },
     loadPluggins: (pluggins, optionsArray = []) => {
+        //TODO not implemented
+        return [null, Status.FeatureNotCreatedYet]
+
         this.pluggins.map((pluggin) => {
             pluggin.load(optionsArray)
         })
     },
     addPluggin: (pluggin, chainStep) => {
+        //TODO not implemented
+        return [null, Status.FeatureNotCreatedYet]
+
         let chainStep = chainStep || pluggins.length;
         this.pluggins.splice(chainStep, 0, pluggin)
     },
     replacePluggin: (pluggin, chainStep) => {
+        //TODO not implemented
+        return [null, Status.FeatureNotCreatedYet]
+
         this.pluggins.splice(chainStep, 1, pluggin)
     },
-    start: (customPluggins) => {
-        this.pluggins ||= customPluggins
-        this.pluggins.forEach(pl => {
-            pl.start(this)
-        })
+    execute: () => {
+        //the map pulls out the execute function from the pluggins
+        //pipe is a fancy way to call nested functions
+        return pipe(this.__text__, this.pluggins.map(pl => { pl.execute}))
     }
 }
