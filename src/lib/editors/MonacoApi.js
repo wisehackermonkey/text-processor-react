@@ -14,7 +14,10 @@ ed.getText()
 ed.getText(3,3)
 ed.getText(selection=true) //TODO unemplemented
 ed.getText(selectedMulti=true) //TODO unemplemented
+ed.setText("works")
 
+ed.setText("works",3,3)
+ed.setText("works",row=3,column=3)
 */
 export default MonacoApi = {
     name: "MonacoApi",

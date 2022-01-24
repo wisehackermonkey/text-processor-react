@@ -62,6 +62,10 @@ export default Processor = {
     getText: (row = null, column = null, rowEnd = 80, columEnd = 1, selected = false, selectedMulti = false) => {
         return ""
     },
+    
+    setText: (text)=> {
+        this.__text__ = text
+    },
     updateText:  (text, column = 0, row = 0)=> {
         return [null, Status.FeatureNotCreatedYet]
 
@@ -80,9 +84,6 @@ export default Processor = {
         let result, status = this.EditorApi.getText()
         this.__text__ = result
         return [result, status]
-    },
-    setText: (text)=> {
-        this.__text__ = text
     },
     editorEvent: (event)=> {
         //TODO not implemented
