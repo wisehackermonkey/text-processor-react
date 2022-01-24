@@ -112,11 +112,12 @@ function DashboardContent() {
   let monacoEditorLoaded = (__editor__, monaco) => {
     console.log(TextPipeline)
     console.log(__editor__) 
+    
     TextPipeline.init(__editor__,MonacoEditor,{},[])
     // TextPipeline.init(null,null,{},[])
 
     // TextPipeline.default(`line 1, line 2, line 3, line 4`)
-    // TextPipeline.execute()
+    TextPipeline.execute()
     // console.log(TextPipeline.getText())
 
     console.log("__Editor__ loaded")

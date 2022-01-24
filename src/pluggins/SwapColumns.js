@@ -1,17 +1,18 @@
 const pipe = (firstValue, ...fns) => [...fns].reduce((v, fn) => { if (Array.isArray(fn)) { if (fn.length >= 2) { return fn[0](v, fn[1]) } } return fn(v) }, firstValue)
 
-export default SwapColumns = {
+const SwapColumns = {
     name: "SwapColumns",
     version: "0.0.1",
     description: "Swap Columns",
     pluggins: [],
-    init: (options) => {
+    init: function(options) {
         this.options = options
         this.result = []
         this.resultType = "array"
         this.status = "loaded"
+        console.log(`${this.name} ${this.version} loaded`)
     },
-    swapColumns: (input,options) => {
+    swapColumns: function (input,options) {
         let result = []
         let columns = input.split("\n")
         let columnCount = columns[0].split("\t").length
@@ -25,7 +26,8 @@ export default SwapColumns = {
         }
         return result.join("\n")
     },
-    execute: (input, options) => {
+    execute:function (input, options) {
         return pipe(input, [this.swapColumns,options])
     }
 }
+export default SwapColumns

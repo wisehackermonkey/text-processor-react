@@ -32,13 +32,13 @@ const MonacoApi = {
     pluggins: [],
     editor: null,//instance of the editor
     Editor: null,//library of the editor
-    init: function (editor, settings, pluggins){
+    init: function (editor,Editor, settings, pluggins){
         // call this first
         // this.pluggins.push(...pluggins)
         // this.settings = settings
         this.editor = editor
         //TODO untested
-        // this.Editor = MonacoEditor
+        this.Editor = Editor
     },
     default: function (text){
         //TODO untested
