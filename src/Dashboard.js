@@ -31,6 +31,7 @@ import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Link from '@mui/material/Link';
+import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -111,14 +112,12 @@ function DashboardContent() {
 
   let monacoEditorLoaded = (__editor__, monaco) => {
     console.log(TextPipeline)
-    console.log(__editor__) 
-    
-    TextPipeline.init(__editor__,MonacoEditor,{},[])
+    console.log(__editor__)
+
+    TextPipeline.init(__editor__, MonacoEditor, {}, [])
     // TextPipeline.init(null,null,{},[])
 
     TextPipeline.defaultText(`line 1, line 2, line 3, line 4`)
-    TextPipeline.execute()
-    console.log(TextPipeline.getText())
 
     console.log("__Editor__ loaded")
     __editor__.focus();
@@ -131,33 +130,33 @@ function DashboardContent() {
     }
   }
 
-  
-// Register a new language
-monaco.languages.register({ id: 'mySpecialLanguage' });
 
-// Register a tokens provider for the language
-monaco.languages.setMonarchTokensProvider('mySpecialLanguage', {
-	tokenizer: {
-		root: [
-			[ /[\s\t\r]+/, "CONTROL"],
-			[/0|[1-9][0-9]*/, "NUMBERS"],
-			[/[a-zA-Z]+/, "LETTERS"],
-			[/[^\s\t\r\-0-9a-zA-Z]+/, "SYMBOLS"],
-		]
-	}
-});
+  // Register a new language
+  monaco.languages.register({ id: 'mySpecialLanguage' });
 
-// Define a new theme that contains only rules that match this language
-monaco.editor.defineTheme('myCoolTheme', {
-	base: 'vs-dark',
-	inherit: true,
-	rules: [
-		{ token: 'CONTROL', foreground: '#F50B03', fontStyle: 'bold' },
-		{ token: 'NUMBERS', foreground: '#0BF503' },
-		{ token: 'LETTERS', foreground: '#4811F1',background:"#ffffff" },
-		{ token: 'SYMBOLS', foreground: '#F1ED11' },
-	]
-});
+  // Register a tokens provider for the language
+  monaco.languages.setMonarchTokensProvider('mySpecialLanguage', {
+    tokenizer: {
+      root: [
+        [/[\s\t\r]+/, "CONTROL"],
+        [/0|[1-9][0-9]*/, "NUMBERS"],
+        [/[a-zA-Z]+/, "LETTERS"],
+        [/[^\s\t\r\-0-9a-zA-Z]+/, "SYMBOLS"],
+      ]
+    }
+  });
+
+  // Define a new theme that contains only rules that match this language
+  monaco.editor.defineTheme('myCoolTheme', {
+    base: 'vs-dark',
+    inherit: true,
+    rules: [
+      { token: 'CONTROL', foreground: '#F50B03', fontStyle: 'bold' },
+      { token: 'NUMBERS', foreground: '#0BF503' },
+      { token: 'LETTERS', foreground: '#4811F1', background: "#ffffff" },
+      { token: 'SYMBOLS', foreground: '#F1ED11' },
+    ]
+  });
   return (
 
     <ThemeProvider theme={mdTheme}>
@@ -185,7 +184,7 @@ monaco.editor.defineTheme('myCoolTheme', {
             >
               Text Processor v3 By Oran Collins
             </Typography>
-            
+
           </Toolbar>
         </AppBar>
 
@@ -226,7 +225,6 @@ monaco.editor.defineTheme('myCoolTheme', {
                   </React.Fragment>
                 </Paper>
               </Grid>
-              {/* Recent Deposits */}
               <Grid item xs={12} lg={12}>
                 <Paper
                   sx={{
@@ -237,10 +235,13 @@ monaco.editor.defineTheme('myCoolTheme', {
                   }}
                 >
                   <>
+                    <Button onClick={() => {
+                      console.log("editor Text", TextPipeline.execute())
+                    }}>Execute</Button>
                     <h1>Regex Replace</h1>
                     <RegexReplace editor={editor} />
                     <hr />
-                    <PatternSelector editor={editor}/>
+                    <PatternSelector editor={editor} />
                     <hr />
                     <h1>Generate Text Using Regex Expressions</h1>
                     <PatternGen editor={editor} />

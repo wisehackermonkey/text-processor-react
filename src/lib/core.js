@@ -34,36 +34,36 @@ const Core = {
     __text__: "",//private please dont use
     EditorApi: null,
     pluggins: [{
-         name: "SwapColumns",
-    version: "0.0.1",
-    description: "Swap Columns",
-    pluggins: [],
-    init: function(options) {
-        this.options = options
-        this.result = []
-        this.resultType = "array"
-        this.status = "loaded"
-        console.log(`${this.name} ${this.version} loaded`)
-    },
-    
-    execute:function (input, options) {
-        function swapColumns(input,options) {
-            let result = []
-            let columns = input.split("\n")
-            let columnCount = columns[0].split("\t").length
-            for (let i = 0; i < columnCount; i++) {
-                let column = []
-                for (let j = 0; j < columns.length; j++) {
-                    let row = columns[j].split("\t")
-                    column.push(row[i])
-                }
-                result.push(column.join("\t"))
+        name: "SwapColumns",
+        version: "0.0.1",
+        description: "Swap Columns",
+        pluggins: [],
+        init: function (options) {
+            this.options = options
+            this.result = []
+            this.resultType = "array"
+            this.status = "loaded"
+            console.log(`${this.name} ${this.version} loaded`)
+        },
+
+        execute: function (input, options) {
+            function swapColumns(input, options) {
+                // let result = []
+                // let columns = input.split("\n")
+                // let columnCount = columns[0].split("\t").length
+                // for (let i = 0; i < columnCount; i++) {
+                //     let column = []
+                //     for (let j = 0; j < columns.length; j++) {
+                //         let row = columns[j].split("\t")
+                //         column.push(row[i])
+                //     }
+                //     result.push(column.join("\t"))
+                // }
+                return input += "swapColumns"
             }
-            return result.join("\n")
+            return [pipe(input, swapColumns),Status.Success]
         }
-        return pipe(input,   swapColumns )
-    }
-        
+
     }],
     init: function (editor, EditorApi, settings = {}, pluggins = [], editorPluggins = []) {
         //example:
@@ -77,10 +77,10 @@ const Core = {
         this.EditorApi = MonacoApi
 
         //settup
-        this.EditorApi.init(editor,MonacoApi, settings, editorPluggins)
+        this.EditorApi.init(editor, MonacoApi, settings, editorPluggins)
 
         //load pluggins
-        this.pluggins.map(function(pl)  {
+        this.pluggins.map(function (pl) {
             pl.init({})
         })
     },
@@ -89,8 +89,8 @@ const Core = {
         //pipe is a fancy way to call nested functions
         console.log("execute")
         // let __pluggins =this.pluggins.map(pl => { pl.execute })
-         let __pluggins = this.pluggins.map(pl => [pl.execute])
-         
+        let __pluggins = this.pluggins.map(pl => [pl.execute])
+
         let result = pipe(this.__text__, this.pluggins[0].execute)
         return result
     },
@@ -153,7 +153,7 @@ const Core = {
 
         this.pluggins.splice(chainStep, 1, pluggin)
     },
-  
+
 }
 
 export default Core;
