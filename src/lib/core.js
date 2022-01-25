@@ -61,7 +61,7 @@ const Core = {
                 // }
                 return input += "swapColumns"
             }
-            return [pipe(input, swapColumns),Status.Success]
+            return [pipe(input, swapColumns), Status.Success]
         }
 
     }],
@@ -85,11 +85,11 @@ const Core = {
         })
     },
     execute: function () {
-        //the map pulls out the execute function from the pluggins
-        //pipe is a fancy way to call nested functions
+        // the map pulls out the execute function from the pluggins
+        // pipe is a fancy way to call nested functions
         console.log("execute")
-        // let __pluggins =this.pluggins.map(pl => { pl.execute })
-        let __pluggins = this.pluggins.map(pl => [pl.execute])
+        // let __pluggins = this.pluggins.map(pl => { pl.execute })
+        // let __pluggins = this.pluggins.map(pl => [pl.execute])
 
         let result = pipe(this.__text__, this.pluggins[0].execute)
         return result
@@ -102,7 +102,6 @@ const Core = {
         this.__text__ = this.EditorApi.getText(row, column, rowEnd, columEnd, selected, selectedMulti)
         return this.__text__
     },
-
     setText: function (text) {
         this.EditorApi.setText(text)
         this.__text__ = text

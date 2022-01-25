@@ -6,7 +6,7 @@ function Enum() {
     }
 }
 
-var Status = new Enum("Success", "Failed","FeatureNotCreatedYet","NoDefaultTextSet", "ErrorMissingTextToReplace", "EditorNotSet", "PlugginNotSet", "Loaded", "Unknown", "WrongInputType", "InternalError", "WentTooFarInArray")
+var Status = new Enum("Success", "Failed", "FeatureNotCreatedYet", "NoDefaultTextSet", "ErrorMissingTextToReplace", "EditorNotSet", "PlugginNotSet", "Loaded", "Unknown", "WrongInputType", "InternalError", "WentTooFarInArray")
 /*
 
 const ed = new MonacoApi()
@@ -32,7 +32,7 @@ const MonacoApi = {
     pluggins: [],
     editor: null,//instance of the editor
     Editor: null,//library of the editor
-    init: function (editor,Editor, settings, pluggins){
+    init: function (editor, Editor, settings, pluggins) {
         // call this first
         // this.pluggins.push(...pluggins)
         // this.settings = settings
@@ -40,15 +40,15 @@ const MonacoApi = {
         //TODO untested
         this.Editor = Editor
     },
-    default: function (text){
+    default: function (text) {
         //TODO untested
-        if(text === undefined || text === null) {
-            return [null,Status.NoDefaultTextSet]
+        if (text === undefined || text === null) {
+            return [null, Status.NoDefaultTextSet]
         }
-        return [this.editor.setModel(monaco.editor.createModel(text, 'text/plain')),Status.Success]
+        return [this.editor.setModel(monaco.editor.createModel(text, 'text/plain')), Status.Success]
     },
     // note: row and column start at 1 instead of 0
-    getText: function(row, column, rowEnd = 80, columEnd = 1, selected = false, selectedMulti = false)  {
+    getText: function (row, column, rowEnd = 80, columEnd = 1, selected = false, selectedMulti = false) {
         // TODO untstested
         // TODO untstested
         if (row === null && column === null && rowEnd === null && columEnd === null && selected === false && selectedMulti === false) {
@@ -85,15 +85,27 @@ const MonacoApi = {
 
     },
 
-    setText: function(text, selectedReplace = false, selectedMulti = false)  {
+    setText: function (text, selectedReplace = false, selectedMulti = false) {
         if (!text) {
             return [null, Status.ErrorMissingTextToReplace]
         }
         if (this.editor === null) {
             return [null, Status.EditorNotSet]
         }
-        if(text && selectedReplace === false && selectedMulti === false){
-            this.editor.setValue(text)
+        if (text && selectedReplace === false && selectedMulti === false) {
+            // wrapper around function that allows for control z for the editor
+                 const fullRange = this.editor.getModel().getFullModelRange();
+                if (text !== this.editor.getValue()) {
+                    this.editor.getModel().pushEditOperations(
+                        [],
+                        [
+                            {
+                                range: fullRange,
+                                text: text,
+                            }
+                        ]
+                    );
+                }            
             return [text, Status.Success]
         }
 
@@ -114,15 +126,15 @@ const MonacoApi = {
 
             this.editor.setModel(new this.Editor.Model(text, this.editor.getModel().getModeId()))
         }
-    
+
     },
-    onUpdate: function(callback)   {
+    onUpdate: function (callback) {
     },
     //monaco spacific functions
-    getSelectedText: function (editor)   {
+    getSelectedText: function (editor) {
         return editor.getModel().getValueInRange(editor.getSelection())
     },
-    string_to_regexp: function(input)   {
+    string_to_regexp: function (input) {
         //   Converting user input string to regular expression
         //   source https://stackoverflow.com/a/874742/16309718
         var flags = input.replace(/.*\/([gimy]*)$/, '$1');
@@ -130,20 +142,20 @@ const MonacoApi = {
         var regex = new RegExp(pattern, flags);
         return regex
     },
-    pasteRegexPattern: function(editor, text) {
+    pasteRegexPattern: function (editor, text) {
         var selection = editor.getSelection();
         var id = { major: 1, minor: 1 };
         var op = { identifier: id, range: selection, text: text, forceMoveMarkers: true };
         editor.executeEdits("my-source", [op]);
     },
 
-    selectionReplace: function(editor, text) {
+    selectionReplace: function (editor, text) {
         var selection = editor.getSelection()
         var id = { major: 1, minor: 1 };
         var op = { identifier: id, range: selection, text: text, forceMoveMarkers: true };
         editor.executeEdits("my-source", [op]);
     },
-    getMultiSelectionText: function(editor) {
+    getMultiSelectionText: function (editor) {
         // TODO untstested
         var selections = editor.getSelections()
         var text = []
@@ -153,13 +165,13 @@ const MonacoApi = {
         return text
 
     },
-    multiSelectionReplace: function(editor, text){
+    multiSelectionReplace: function (editor, text) {
         var selections = editor.getSelections()
         var id = { major: 1, minor: 1 };
         var ops = selections.map(x => { return { identifier: id, range: x, text: text, forceMoveMarkers: true } })
         editor.executeEdits("my-source", ops);
     },
-    multiSelectionReplaceFn: function(editor, fn) {
+    multiSelectionReplaceFn: function (editor, fn) {
         //   example
         // h.multiSelectionReplaceFn(editor, ()=>new RandExp(/([a-b]){5}/g ).gen())
 
@@ -169,7 +181,7 @@ const MonacoApi = {
         editor.executeEdits("my-source", ops);
     },
     // wrapper around function that allows for control z for the editor
-    updateEditor: function (editor, value)  {
+    updateEditor: function (editor, value) {
         const fullRange = editor.getModel().getFullModelRange();
         if (value !== editor.getValue()) {
             editor.getModel().pushEditOperations(

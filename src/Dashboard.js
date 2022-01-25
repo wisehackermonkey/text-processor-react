@@ -118,7 +118,6 @@ function DashboardContent() {
     // TextPipeline.init(null,null,{},[])
 
     TextPipeline.defaultText(`line 1, line 2, line 3, line 4`)
-
     console.log("__Editor__ loaded")
     __editor__.focus();
     setEditor(__editor__)
@@ -237,6 +236,8 @@ function DashboardContent() {
                   <>
                     <Button onClick={() => {
                       console.log("editor Text", TextPipeline.execute())
+                      TextPipeline.setText(`line 4, line 1, line 2, line 3`)
+
                     }}>Execute</Button>
                     <h1>Regex Replace</h1>
                     <RegexReplace editor={editor} />
