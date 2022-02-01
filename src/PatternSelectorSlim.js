@@ -114,7 +114,7 @@ const PatternSelectorSlim = ({ editor }) => {
         let string_regex = parsed.reduce((accumulator, value, index, array) => {
             return accumulator + tokens[value]
         }, "")
-        setSetRegexPattern(`/${string_regex}/g`)
+        setSetRegexPattern(`^${string_regex}$`)
 
     }, [chipData])
 
@@ -147,12 +147,22 @@ const PatternSelectorSlim = ({ editor }) => {
 
                 rows={1}
             />
-            <Button variant="contained" onClick={() => {
-                let selectedText = h.getSelectedText(editor)
-                print(selectedText)
-                SetPatternExtract(selectedText)
-            }
-            }>Get Current Selection</Button>
+            <Stack direction="row" spacing={3}>
+
+                <Button variant="contained" onClick={() => {
+                    let selectedText = h.getSelectedText(editor)
+                    print(selectedText)
+                    SetPatternExtract(selectedText)
+                }
+                }>Get Current Selection</Button>
+                <Button variant="contained" onClick={() => {
+                    navigator.clipboard.writeText(regexpattern);
+
+                    /* Alert the copied text */
+                    alert("Copied the text: " + regexpattern);
+                }}>Copy to Clipboard</Button>
+
+            </Stack>
             <TextField
                 id="outlined-multiline-static"
                 variant="standard"
