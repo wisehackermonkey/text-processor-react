@@ -29,16 +29,21 @@ yarn start
 
 ## Locally run integration tests with crypress
 ```bash
-yarn
+yarn # install depencencys if you havend already
 yarn run cypress:open
 ```
 
 ### Run integration tests with crypress
 ```bash
-yarn
+yarn # install depencencys if you havend already
 yarn run cy:ci
 ```
-
+### Windows version
+```bash
+yarn # install depencencys if you havend already
+$env:START_SERVER_AND_TEST_INSECURE=1
+yarn run cy:ci-win
+```
 # how to debug regex generator grammer parser
 ```
 yarn global add  nearley

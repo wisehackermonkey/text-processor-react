@@ -117,9 +117,10 @@ function DashboardContent() {
     TextPipeline.init(__editor__, MonacoEditor, {}, [])
     // TextPipeline.init(null,null,{},[])
 
-    TextPipeline.defaultText(`line 1, line 2, line 3, line 4`)
+    // TextPipeline.defaultText(`line 1, line 2, line 3, line 4`)
     console.log("__Editor__ loaded")
     __editor__.focus();
+    __editor__.trigger('fold', 'editor.foldAll');
     setEditor(__editor__)
 
     if (localStorage.editorSavedText === undefined) {
@@ -156,6 +157,15 @@ function DashboardContent() {
       { token: 'SYMBOLS', foreground: '#F1ED11' },
     ]
   });
+
+
+
+    function fold(){
+      editor.trigger('fold', 'editor.foldAll');
+    }
+    function unfold(){
+      editor.trigger('unfold', 'editor.unfoldAll');
+    }
   return (
 
     <ThemeProvider theme={mdTheme}>
@@ -211,6 +221,8 @@ function DashboardContent() {
                 }}>
                   <React.Fragment>
                     <Title>Editor</Title>
+                    <Button  onClick={fold}>Fold</Button>
+                    <Button  onClick={unfold}>Unfold</Button>
                     <MonacoEditor
                       // height="400"
                       // width="1000"
@@ -219,6 +231,19 @@ function DashboardContent() {
                       options={options}
                       onChange={onChange}
                       editorDidMount={monacoEditorLoaded}
+                      theme="myCoolTheme"
+                    />
+                  </React.Fragment>
+                  <React.Fragment>
+                    <Title>Filtered Weird Lines</Title>
+                    <MonacoEditor
+                      // height="400"
+                      // width="1000"
+                      language="mySpecialLanguage"
+                      defaultValue={"wow"}//{localStorage.editorSavedText}
+                      // options={options}
+                      // onChange={onChange}
+                      // editorDidMount={monacoEditorLoaded}
                       theme="myCoolTheme"
                     />
                   </React.Fragment>

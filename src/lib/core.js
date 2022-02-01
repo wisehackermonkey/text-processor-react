@@ -1,5 +1,5 @@
 //this file is the interface for the plugin core.
-// pipe(input object, <function or >,[<fn>, <option data>])
+// pipe(input object, <function or >,[<fn>, <option data>],,[<fn>, <option data>])
 // this returns result of all functions running in a pipe
 // const pipe = (firstValue, ...fns) => [...fns].reduce((v, fn) => { if (Array.isArray(fn)) { if (fn.length >= 2) { return fn[0](v, fn[1]) } } return fn(v) }, firstValue)
 const pipe = (firstValue, ...fns) => [...fns].reduce((v, fn) => { return fn(v) }, firstValue)
@@ -61,7 +61,7 @@ const Core = {
                 // }
                 return input += "swapColumns"
             }
-            return [pipe(input, swapColumns), Status.Success]
+            return [swapColumns, Status.Success]
         }
 
     }],
