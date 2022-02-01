@@ -153,13 +153,29 @@ const PatternSelectorSlim = ({ editor }) => {
                     let selectedText = h.getSelectedText(editor)
                     print(selectedText)
                     SetPatternExtract(selectedText)
+                    let contents = editor.getModel().getValue()
+                    let regex = new RegExp(regexpattern, "g")
+                    let results = contents.split("\n").map((line) => {
+                        if(line.matchAll(regex) >0){
+                            //account for multiple matches in a line
+                            console.log(line)
+                        // continue
+                        // return null
+                        // }
+                        // return line
+                        }else{
+                            console.log(`>${line}`)
+                        }
+
+                    })
+                    console.log(results)
                 }
                 }>Get Current Selection</Button>
                 <Button variant="contained" onClick={() => {
                     navigator.clipboard.writeText(regexpattern);
 
                     /* Alert the copied text */
-                    alert("Copied the text: " + regexpattern);
+                    // alert("Copied the text: " + regexpattern);
                 }}>Copy to Clipboard</Button>
 
             </Stack>
