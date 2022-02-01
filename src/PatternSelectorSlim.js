@@ -49,10 +49,10 @@ const names = [
 
 const MAPPING =
 {
-    LETTERS: "A-Z",
-    NUMBERS: "1234",
-    WHITESPACE: "WHITESPACE",
-    SYMBOLS: "(){},?#..."
+    LETTERS: "A",
+    NUMBERS: "1",
+    WHITESPACE: " ",
+    SYMBOLS: "§"
 }
 
 
@@ -105,7 +105,7 @@ const PatternSelectorSlim = ({ editor }) => {
     useEffect(() => {
 
         let tokens = {
-            WHITESPACE: `([\\t\\n\\r]+)`,
+            WHITESPACE: `([\\t\\n\\r\\s]+)`,
             NUMBERS: `([0-9]+)`,
             LETTERS: `([a-zA-Z]+)`,
             SYMBOLS: `([^\\s\\t\\r\\-a-zA-Z0-9]+)`
@@ -145,7 +145,7 @@ const PatternSelectorSlim = ({ editor }) => {
                 value={patternExtract}
                 onInput={(e) => SetPatternExtract(e.target.value)}
 
-                rows={4}
+                rows={1}
             />
             <Button variant="contained" onClick={() => {
                 let selectedText = h.getSelectedText(editor)
@@ -159,7 +159,7 @@ const PatternSelectorSlim = ({ editor }) => {
                 placeholder="Example"
                 multiline
                 value={regexpattern}
-                rows={4}
+                rows={1}
             />
 
             <Paper
