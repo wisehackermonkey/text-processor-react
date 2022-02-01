@@ -9,6 +9,7 @@ import Title from './Title';
 import PatternGen from './PatternGen';
 import RegexReplace from "./RegexReplace"
 import PatternSelector from './PatternSelector';
+import PatternSelectorSlim from './PatternSelectorSlim';
 
 import MonacoEditor from "react-monaco-editor";
 import { monaco } from 'react-monaco-editor';
@@ -36,6 +37,7 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
+import Stack from '@mui/material/Stack';
 
 import MonacoApi from "./lib/editors/MonacoApi.js";
 import Core from "./lib/core.js";
@@ -160,12 +162,16 @@ function DashboardContent() {
 
 
 
-    function fold(){
-      editor.trigger('fold', 'editor.foldAll');
-    }
-    function unfold(){
-      editor.trigger('unfold', 'editor.unfoldAll');
-    }
+  function fold() {
+    editor.trigger('fold', 'editor.foldAll');
+  }
+  function unfold() {
+    editor.trigger('unfold', 'editor.unfoldAll');
+  }
+  function Filter() {
+    // editor.get
+    console.log(editor.getModel().getValue())
+  }
   return (
 
     <ThemeProvider theme={mdTheme}>
@@ -214,6 +220,7 @@ function DashboardContent() {
             <Grid container spacing={3}>
               {/* Recent Orders */}
               <Grid item xs={12} lg={12}>
+              <PatternSelectorSlim editor={editor} />
                 <Paper sx={{
                   p: 2,
                   height: 500,
@@ -221,11 +228,15 @@ function DashboardContent() {
                 }}>
                   <React.Fragment>
                     <Title>Editor</Title>
-                    <Button  onClick={fold}>Fold</Button>
-                    <Button  onClick={unfold}>Unfold</Button>
+                    <Stack direction="row">
+                      <Button onClick={fold}>Fold</Button>
+                      <Button onClick={unfold}>Unfold</Button>
+                      <Button onClick={Filter}>Filter</Button>
+                    </Stack>
+
                     <MonacoEditor
-                      // height="400"
-                      // width="1000"
+                      height="400"
+                      width="1000"
                       language="mySpecialLanguage"
                       defaultValue={localStorage.editorSavedText}
                       options={options}
