@@ -71,10 +71,10 @@ const ListItem = styled('li')(({ theme }) => ({
 }));
 
 const PatternSelectorSlim = ({ editor }) => {
-    const theme = useTheme();
-    const [personName, setPersonName] = React.useState([]);
+     const [personName, setPersonName] = React.useState([]);
     const [regexpattern, setSetRegexPattern] = useState("")
     const [patternExtract, SetPatternExtract] = useState("")
+    const [editorText, SetEditorText] = useState("")
     const handleChange = (event) => {
         const {
             target: { value },
@@ -103,6 +103,7 @@ const PatternSelectorSlim = ({ editor }) => {
     };
 
     useEffect(() => {
+        console.log(5)
 
         let tokens = {
             WHITESPACE: `([\\t\\n\\r\\s]+)`,
@@ -119,6 +120,8 @@ const PatternSelectorSlim = ({ editor }) => {
     }, [chipData])
 
     useEffect(() => {
+        console.log(4)
+
         let editor_text = patternExtract//editor.getValue()
         console.log(editor_text)
         pipe(Parser.extract(editor_text), print, (x) => {
@@ -131,8 +134,36 @@ const PatternSelectorSlim = ({ editor }) => {
             setChipData(res);
         });
     }, [patternExtract])
+    // useEffect(() => {
+    //     console.log(2)
 
+    //     try {
+    //         // let contents =   editor.getModel().getValueInRange(editor.getModel().getFullModelRange())
+    //         let contents = editor.getModel().getValue();
+    //         let regex = new RegExp(regexpattern, "g")
+    //         console.log(regex)
+    //         console.log(regexpattern)
+    //         console.log("here")
+    //         let results = contents.split("\n").map((line) => {
+    //             console.log(line)
+    //             console.log(line.match(regex)?.length > 0)
+    //             // if(line.matchAll(regex) > 0){
+    //             //     //account for multiple matches in a line
+    //             //     console.log(line)
+    //             // // continue
+    //             // // return null
+    //             // // }
+    //             // // return line
+    //             // }else{
+    //             //     console.log(`>${line}`)
+    //             // }
 
+    //         })
+    //         console.log(results)
+    //     } catch (e) {
+    //         console.log(e)
+    //     }
+    // }, [setSetRegexPattern,SetPatternExtract,editor])
 
     return (
         <Stack spacing={3}>
@@ -150,27 +181,39 @@ const PatternSelectorSlim = ({ editor }) => {
             <Stack direction="row" spacing={3}>
 
                 <Button variant="contained" onClick={() => {
-                    let selectedText = h.getSelectedText(editor)
-                    print(selectedText)
-                    SetPatternExtract(selectedText)
-                    let contents = editor.getModel().getValue()
-                    let regex = new RegExp(regexpattern, "g")
-                    let results = contents.split("\n").map((line) => {
-                        if(line.matchAll(regex) >0){
-                            //account for multiple matches in a line
-                            console.log(line)
-                        // continue
-                        // return null
-                        // }
-                        // return line
-                        }else{
-                            console.log(`>${line}`)
-                        }
-
-                    })
-                    console.log(results)
+                    let selected_text = h.getSelectedText(editor)
+                    console.log(selected_text)
+                    SetPatternExtract(selected_text)
+                    console.log(1)
                 }
                 }>Get Current Selection</Button>
+                <Button variant="contained" onClick={() => {
+                          // let contents =   editor.getModel().getValueInRange(editor.getModel().getFullModelRange())
+            let contents = editor.getModel().getValue();
+            let regex = new RegExp(regexpattern, "gm")
+            console.log(regex)
+            console.log(regexpattern)
+            console.log("here")
+            let results = contents.split("\r\n").map((line) => {
+                // console.log(line.match(regex)?.length > 0,line)
+                
+                if(line.match(regex)?.length > 0){
+                    //account for multiple matches in a line
+                    console.log(line)
+                // continue
+                // return null
+                // }
+                // return line
+                return -1
+                }else{
+                    console.log(`>${line}`)
+                    return line
+                }
+
+            })
+            console.log(results)
+                }
+                }>filter</Button>
                 <Button variant="contained" onClick={() => {
                     navigator.clipboard.writeText(regexpattern);
 
