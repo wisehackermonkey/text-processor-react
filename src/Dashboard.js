@@ -111,6 +111,7 @@ function DashboardContent() {
   };
   let [theme, setTheme] = useState(false)
   let [editor, setEditor] = useState(null)
+  let [editorFilter, setEditorFilter] = useState(null)
 
   let monacoEditorLoaded = (__editor__, monaco) => {
     console.log(TextPipeline)
@@ -130,6 +131,12 @@ function DashboardContent() {
       console.log("loaded example text")
       return
     }
+  }
+
+  let monacoEditorLoadedFilter = (__editor__, monaco) => {
+
+    setEditorFilter(__editor__)
+
   }
 
 
@@ -220,7 +227,7 @@ function DashboardContent() {
             <Grid container spacing={3}>
               {/* Recent Orders */}
               <Grid item xs={12} lg={12}>
-              <PatternSelectorSlim editor={editor} />
+              <PatternSelectorSlim editor={editor} editorFilter={editorFilter}/>
                 <Paper sx={{
                   p: 2,
                   height: 500,
@@ -254,7 +261,7 @@ function DashboardContent() {
                       defaultValue={"wow"}//{localStorage.editorSavedText}
                       // options={options}
                       // onChange={onChange}
-                      // editorDidMount={monacoEditorLoaded}
+                      editorDidMount={monacoEditorLoadedFilter}
                       theme="myCoolTheme"
                     />
                   </React.Fragment>

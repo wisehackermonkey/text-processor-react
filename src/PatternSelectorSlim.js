@@ -70,7 +70,7 @@ const ListItem = styled('li')(({ theme }) => ({
     margin: theme.spacing(0.5),
 }));
 
-const PatternSelectorSlim = ({ editor }) => {
+const PatternSelectorSlim = ({ editor,editorFilter }) => {
      const [personName, setPersonName] = React.useState([]);
     const [regexpattern, setSetRegexPattern] = useState("")
     const [patternExtract, SetPatternExtract] = useState("")
@@ -115,7 +115,7 @@ const PatternSelectorSlim = ({ editor }) => {
         let string_regex = parsed.reduce((accumulator, value, index, array) => {
             return accumulator + tokens[value]
         }, "")
-        setSetRegexPattern(`^${string_regex}$`)
+        setSetRegexPattern(`${string_regex}`)
 
     }, [chipData])
 
@@ -188,32 +188,33 @@ const PatternSelectorSlim = ({ editor }) => {
                 }
                 }>Get Current Selection</Button>
                 <Button variant="contained" onClick={() => {
+                    // TODO refactor this to work on every selection of a file
                           // let contents =   editor.getModel().getValueInRange(editor.getModel().getFullModelRange())
             let contents = editor.getModel().getValue();
             let regex = new RegExp(regexpattern, "gm")
             console.log(regex)
             console.log(regexpattern)
             console.log("here")
-            let results = contents.split("\r\n").map((line) => {
-                // console.log(line.match(regex)?.length > 0,line)
+            let results = contents.split("\r\n").filter((x)=> (x !== "")).map((line) => {
+                console.log(line.match(regex)?.length > 0,line)
                 
-                if(line.match(regex)?.length > 0){
+                if(line.match(regex)?.length >= 1){
                     //account for multiple matches in a line
-                    console.log(line)
+                    // console.log(line)
                 // continue
                 // return null
                 // }
                 // return line
                 return -1
                 }else{
-                    console.log(`>${line}`)
+                    // console.log(`>${line}`)
                     return line
                 }
 
             })
+            h.updateEditor(editorFilter,results.filter((x)=> (x !== -1)).join("\r\n"))
             console.log(results)
-                }
-                }>filter</Button>
+                }}>filter</Button>
                 <Button variant="contained" onClick={() => {
                     navigator.clipboard.writeText(regexpattern);
 
