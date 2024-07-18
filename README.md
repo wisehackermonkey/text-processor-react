@@ -21,23 +21,17 @@ To build the examples locally, run:
 
 ```bash
 yarn
+
 yarn start
 ```
+### NOTE: as of 2024 node doenst support some things im using tofix that run
+### if you get code: 'ERR_OSSL_EVP_UNSUPPORTED' error
+`export NODE_OPTIONS=--openssl-legacy-provider`
 
-### Then open `http://localhost:8886` in a browser
+### Then open `http://localhost:3000` in a browser
 
 
-## Locally run integration tests with crypress
-```bash
-yarn
-yarn run cypress:open
-```
-
-### Run integration tests with crypress
-```bash
-yarn
-yarn run cy:ci
-```
+----------
 
 # how to debug regex generator grammer parser
 ```
@@ -46,6 +40,25 @@ nearleyc grammer.ne -o src/lib/grammer.js
 nearley-railroad grammer.ne -o grammar.html
 python -m http.server 80
 ```
+
+# NOTE ALL CYPRESS TESTS ARE CURRENTLY BORKED! broken :/ as of 20240718
+## Locally run integration tests with crypress
+```bash
+yarn start
+```
+### in a new tab run
+```bash
+yarn
+yarn run cypress:open
+```
+
+### Run integration tests with crypress 
+```bash
+yarn
+yarn run cy:ci
+```
+
+
 ### open grammar.html in your browser to view railroad diagram of grammer
 ### http://localhost:80/grammar.html
 
@@ -64,7 +77,11 @@ python -m http.server 80
 # TODO add
 - ~~better css~~ DONE
 - ~~add localstorage~~ DONE
+- add save file button
+  - add  open file
 - add pastebin save with api key
+- add cool colored text visualizer for the regex
+- chatgpt plugin with buttons for helper
 # links
 [GitHub - react-monaco-editor/react-monaco-editor: Monaco Editor for React.](https://github.com/react-monaco-editor/react-monaco-editor)
 [Monaco Editor Playground](https://microsoft.github.io/monaco-editor/playground.html#creating-the-editor-editor-basic-options)
